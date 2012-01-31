@@ -80,7 +80,7 @@ namespace Pololu
 
         // send_led_strip_byte subroutine:  Sends a byte to the LED strip.
         "send_led_strip_byte%=:\n"
-        "ld __tmp_reg__, %a0+\n"      // Read the next color brightness byte and advance the pointer
+        "ld __tmp_reg__, %a0+\n"        // Read the next color brightness byte and advance the pointer
         "rcall send_led_strip_bit%=\n"  // Send most-significant bit (bit 7).
         "rcall send_led_strip_bit%=\n"
         "rcall send_led_strip_bit%=\n"
@@ -122,7 +122,7 @@ namespace Pololu
         cli();
       }
     }
-    sei();   // Re-enable interrupts now that we are done.
+    sei();          // Re-enable interrupts now that we are done.
     _delay_us(15);  // Hold the line low for 15 microseconds to send the reset signal.
   }
 
