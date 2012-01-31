@@ -11,7 +11,7 @@
 #endif
 
 #if defined(NUM_DIGITAL_PINS) && NUM_DIGITAL_PINS != 20
-#error "This version of the PololuLedStrip library only supports ATmega168/328-based Arduinos."
+#error "This version of the PololuLedStrip library only supports ATmega168/328-based boards."
 #endif
 
 namespace Pololu
