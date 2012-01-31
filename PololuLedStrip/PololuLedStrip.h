@@ -10,6 +10,10 @@
 #error "This version of the PololuLedStrip library only supports 16 and 20 MHz processors."
 #endif
 
+#if defined(NUM_DIGITAL_PINS) && NUM_DIGITAL_PINS != 20
+#error "This version of the PololuLedStrip library only supports ATmega168/328-based Arduinos."
+#endif
+
 namespace Pololu
 {
   #ifndef _POLOLU_RGB_COLOR
