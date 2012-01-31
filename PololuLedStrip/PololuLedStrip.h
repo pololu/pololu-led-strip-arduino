@@ -6,6 +6,10 @@
 #include <util/delay.h>
 #include <Arduino.h>
 
+#if !(F_CPU == 16000000 || F_CPU == 20000000)
+#error "This version of the PololuLedStrip library only supports 16 and 20 MHz processors."
+#endif
+
 namespace Pololu
 {
   #ifndef _POLOLU_RGB_COLOR
@@ -97,11 +101,21 @@ namespace Pololu
         "send_led_strip_bit%=:\n"
         "sbi %2, %3\n"                           // Drive the line high.
         "rol __tmp_reg__\n"                      // Rotate left through carry.
+#if F_CPU == 16000000
         "nop\n" "nop\n" "nop\n" "nop\n"
+#elif F_CPU == 20000000
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+#endif
         "brcs .+2\n" "cbi %2, %3\n"              // If the bit to send is 0, drive the line low now.    
+#if F_CPU == 16000000
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n"
+#elif F_CPU == 20000000
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+#endif
         "brcc .+2\n" "cbi %2, %3\n"              // If the bit to send is 1, drive the line low now.
         "nop\n"
         "ret\n"
@@ -113,10 +127,10 @@ namespace Pololu
           "I" (pinBit[pin])     // %3 is the pin number (0-8)
       );
       
-      // Experimentally we found that one NOP is required after the SEI to actually let the
-      // interrupts fire.
       if (PololuLedStripBase::interruptFriendly)
       {
+        // Experimentally we found that one NOP is required after the SEI to actually let the
+        // interrupts fire.
         sei();
         asm volatile("nop\n");
         cli();
