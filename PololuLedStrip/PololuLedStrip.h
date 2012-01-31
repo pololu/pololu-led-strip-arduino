@@ -19,7 +19,7 @@ namespace Pololu
   class PololuLedStripBase
   {
     public:
-    static unsigned char interruptFriendly;
+    static bool interruptFriendly;
     void virtual write(rgb_color *, unsigned int count) = 0;
   };
 
