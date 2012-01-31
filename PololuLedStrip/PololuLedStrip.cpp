@@ -1,1 +1,3 @@
-// This file left intentionally blank.
+#include <PololuLedStrip.h>
+
+unsigned char PololuLedStripBase::interruptFriendly = 0;

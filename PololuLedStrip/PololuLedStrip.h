@@ -19,9 +19,10 @@ namespace Pololu
   class PololuLedStripBase
   {
     public:
+    static unsigned char interruptFriendly;
     void virtual write(rgb_color *, unsigned int count) = 0;
   };
-  
+
   template<unsigned char pin> class PololuLedStrip : public PololuLedStripBase
   {
     public:
@@ -104,13 +105,22 @@ namespace Pololu
         "brcc .+2\n" "cbi %2, %3\n"              // If the bit to send is 1, drive the line low now.
         "nop\n"
         "ret\n"
-      
+        
         "led_strip_asm_end%=: "
         : "=b" (colors)
         : "0" (colors),         // %a0 points to the next color to display
           "I" (pinAddr[pin]),   // %2 is the port register (e.g. PORTC)
           "I" (pinBit[pin])     // %3 is the pin number (0-8)
       );
+      
+      // Experimentally we found that one NOP is required after the SEI to actually let the
+      // interrupts fire.
+      if (PololuLedStripBase::interruptFriendly)
+      {
+        sei();
+        asm volatile("nop\n");
+        cli();
+      }
     }
     sei();   // Re-enable interrupts now that we are done.
     _delay_us(15);  // Hold the line low for 15 microseconds to send the reset signal.
