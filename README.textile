@@ -8,7 +8,7 @@ Release Date: 2012-01-31
 
 h2. Summary
 
-This is a library for the "Arduino":http://pololu.com/catalog/product/1616 for controlling these addressable RGB LED strips from Pololu:
+This is a library for the "Arduino":http://pololu.com/catalog/product/1616 for controlling the addressable RGB LED strips from Pololu:
 
 * "Addressable RGB LED Strip: One-Wire Interface, 5V, 30 LEDs, 1m":http://www.pololu.com/product/catalog/2540
 * "Addressable RGB LED Strip: One-Wire Interface, 5V, 60 LEDs, 2m":http://www.pololu.com/product/catalog/2541
@@ -19,7 +19,7 @@ h2. Supported Platforms
 
 This library and the examples are designed to work with the Arduino 1.0 IDE and probably will not work with earlier versions.
 
-This library currently supports any board based on the ATmega168 or ATmega328p which runs at 16 MHz or 20 MHz.  This includes the "Arduino UNO":http://www.pololu.com/catalog/product/1616, the older Arduino Duemilanovae, the "Baby Orangutan B-328":http://www.pololu.com/catalog/product/1220, and "Orangutan SV-328":http://www.pololu.com/catalog/product/1227.
+This library currently supports any board based on the ATmega168 or ATmega328p which runs at 16 MHz or 20 MHz.  This includes the "Arduino UNO":http://www.pololu.com/catalog/product/1616, the older Arduino Duemilanovae, the "Baby Orangutan B-328":http://www.pololu.com/catalog/product/1220, and the "Orangutan SV-328":http://www.pololu.com/catalog/product/1227.
 
 It would be relatively easy to add support for other AVR-based boards such as the "Arduino Mega 2560":http://www.pololu.com/catalog/product/1699, but they are currently not supported.
 
@@ -33,11 +33,13 @@ h3. Hardware
 
 The addressable RGB LED strips can be purchased on Pololu's website using the links above.
 
-The data input connector for the LED strip is transparent and has two male pins inside.  The wire that has an opaque white highlight is the signal line, and the the other wire is ground.  The LED strip's ground will need to be connected to one of the Arduino's GND pins, and the LED strip's signal line will be need to be connected to one of the Arduino's I/O lines.  Our example sketches assume the signal line is connected to pin 8.  These connections can be made using two of "Male-Female Premium Jumper Wires":http://www.pololu.com/catalog/category/67, with the female ends plugging into the LED strip.
+The data input connector for the LED strip is transparent and has two male pins inside.  The wire that has an opaque white highlight is the signal line, and the the other wire is ground.  The LED strip's ground will need to be connected to one of the Arduino's GND pins, and the LED strip's signal line will be need to be connected to one of the Arduino's I/O lines.  Our example sketches assume the signal line is connected to pin 8.  These connections can be made using two "Male-Female Premium Jumper Wires":http://www.pololu.com/catalog/category/67, with the female ends plugging into the LED strip.
 
 You will also need to connect a suitable power supply to the LED strip using one of the power connectors.  The power supply must be at the right voltage and provide enough current to meet the LED strip's requirements.
 
 h2. Example Programs
+
+The easiest way to learn this library is to take a look at the example code we provide.
 
 h3. LedStripGradient
 
@@ -49,9 +51,9 @@ This example code sketch allows you to type colors into the Serial Monitor and s
 
 h2. Timing Details
  
-This library takes about 1.5 ms to update 30 LEDs (1 meter).  The LED strips use a high speed one-wire protocol with relatively strict timing requirements, so this library disables interrupts to ensure reliable color transmission.  Unfortunately, disabling the interrupts causes problems in other libraries that uses interrupts, such as that Arduino's @Serial@ library and the functions like @millis()@ that keep track of time.
+This library takes about 1.5 ms to update 30 LEDs (1 meter).  The LED strips use a high speed one-wire protocol with relatively strict timing requirements, so this library disables interrupts to ensure reliable color transmission.  Unfortunately, disabling the interrupts causes problems in other libraries that uses interrupts, such as the @Serial@ library and the functions like @millis()@ that keep track of time.
 
-This library provides an @interruptFriendly@ option that can let it coexist with interrupt-based libraries.  When this option is enabled, the library will temporarily enable interrupts after each color is sent, about every 48 microseconds.  If you can keep all of your interrupts short enough, then this option should allow this library to work in conjunction with your interrupt-based libraries.  However, if you have an interrupt enabled that takes longer than about 8 us (which the Arduino has by default), then this interrupt will sometimes cause an extra long low pulse to emitted by the library, which will be interpreted by the LED strip as a reset command.  This can cause visible flickering in the LED strip. To turn on the @interruptFriendly@ option, add this line to your @setup()@ function:
+This library provides an @interruptFriendly@ option that can let it coexist with interrupt-based libraries.  When this option is enabled, the library will temporarily enable interrupts after each color is sent, about every 48 microseconds.  If you can keep all of your interrupts short enough, then this option should allow this library to work in conjunction with your interrupt-based libraries.  However, if you have an interrupt enabled that takes longer than about 8 microseconds (which the Arduino has by default), then this interrupt will sometimes cause an extra long low pulse to emitted, which will be interpreted by the LED strip as a reset command.  This can cause visible flickering in the LED strip. To turn on the @interruptFriendly@ option, add this line to your @setup()@ function:
 
 pre.  PololuLedStripBase::interruptFriendly = true;
 
@@ -59,7 +61,7 @@ h2. Library Reference
 
 h3. rgb_color
 
-The library defines a type named @rgb_color@ which can be used to represent any color.  The type is defined like this:
+The library defines a type named @rgb_color@ which can be used to represent colors.  The type is defined like this:
 
 <pre>
 typedef struct rgb_color
@@ -72,15 +74,19 @@ The fields @red@, @green@, and @blue@ are numbers between 0 and 255 and represen
 
 h3. PololuLedStrip&lt;pin&gt;
 
-The libary defines a template class named @PololuLedStrip&lt;pin&gt;@.  The @pin@ template parameter is an @unsigned char@ and should be the number of the Arduino pin that the LED strip's data input line is connected to.  This template class inherits from the abstract class @PololuLedStripBase@, which is useful if you want to have pointers to LED strip objects.
+The libary defines a template class named @PololuLedStrip<pin>@.  The @pin@ template parameter is an @unsigned char@ and should be the number of the Arduino pin that the LED strip's data input line is connected to.  This template class inherits from the abstract class @PololuLedStripBase@, which is useful if you want to have pointers to LED strip objects.
 
 This class has no constructor except the default one.  This class has one function:
 
-- @void write(rgb_color * colors, unsigned int count)@ := Writes the specified colors to the LED strip.  The @colors@ parameter should be a pointer to an array of @rgb_color@ structs.  The @count@ parameter is the number of colors to write.  To update all the LEDs in the LED strip, the @count@ parameter should be equal to greater than the number of LEDs in the strip.  The first color in the array will be written to the LED closest to the data input connector.  This function disables interrupts temporarily.  This function pauses for over 10 us at the end before returning to allow the colors to take effect.
+- @void write(rgb_color * colors, unsigned int count)@ := Writes the specified colors to the LED strip.  The @colors@ parameter should be a pointer to an array of @rgb_color@ structs in RAM.  The @count@ parameter is the number of colors to write.  The first color in the array will be written to the LED closest to the data input connector.  To update all the LEDs in the LED strip, @count@ should be equal to greater than the number of LEDs in the strip.  If @count@ is less than the number of LEDs in the strip, then some LEDs near the end of the strip will not be updated.  This function disables interrupts temporarily.  This function pauses for over 10 us at the end before returning to allow the colors to take effect.
 
 h3. PololuLedStripBase
 
-- @static bool interruptFriendly;@ := Defaults to false.  Setting this to true causes the @write@ function to enable interrupts after each color is sent, about every 48 microseconds.  See the discussion above.
+- @static bool interruptFriendly;@ := This option defaults to @false@.  Setting this to @true@ changes the behavior of the @write@ function, making it enable interrupts after each color is sent, about every 48 microseconds.  See the discussion above.
+
+h2. Chaining LED Strips together
+
+No special code is required to chain LED strips together.  An X-meter LED strip chained to a Y-meter LED strip can be controlled in exactly the same way as a single (X+Y)-meter LED strip.
 
 h2. Version History
 
