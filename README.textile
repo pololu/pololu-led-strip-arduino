@@ -1,4 +1,4 @@
-!>http://www.pololu.com/picture/0J3842.400.jpg!:http://www.pololu.com/picture/view/0J3842
+<p style="float:right">!http://www.pololu.com/picture/0J3842.250.jpg!:http://www.pololu.com/picture/view/0J3842</p>
 
 h1. Arduino library for addressable RGB LED strips from Pololu
 
