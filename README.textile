@@ -3,7 +3,7 @@
 h1. Arduino library for addressable RGB LED strips from Pololu
 
 Version: 1.0.0
-Release Date: 2012-01-31
+Release Date: 2012-03-09
 "www.pololu.com":http://www.pololu.com/
 
 h2. Summary
@@ -90,4 +90,4 @@ No special code is required to chain LED strips together.  An X-meter LED strip 
 
 h2. Version History
 
-* 1.0.0 (2012-01-31): Original release.
+* 1.0.0 (2012-03-09): Original release.
