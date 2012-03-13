@@ -1,8 +1,7 @@
-
 h1. Arduino library for addressable RGB LED strips from Pololu
 
 Version: 1.0.0
-Release Date: 2012-03-09
+Release Date: 2012-03-13
 "www.pololu.com":http://www.pololu.com/
 
 !http://www.pololu.com/picture/0J3842.250.jpg!:http://www.pololu.com/picture/view/0J3842
@@ -20,9 +19,13 @@ h2. Supported Platforms
 
 This library and the examples are designed to work with the Arduino 1.0 IDE and probably will not work with earlier versions.
 
-This library currently supports any board based on the ATmega168 or ATmega328p which runs at 16 MHz or 20 MHz.  This includes the "Arduino UNO":http://www.pololu.com/catalog/product/1616, the older Arduino Duemilanovae, the "Baby Orangutan B-328":http://www.pololu.com/catalog/product/1220, and the "Orangutan SV-328":http://www.pololu.com/catalog/product/1227.
-
-It would be relatively easy to add support for other AVR-based boards such as the "Arduino Mega 2560":http://www.pololu.com/catalog/product/1699, but they are currently not supported.
+This library currently supports any board based on the ATmega168, ATmega328p, or ATmega2560 which runs at 16 MHz or 20 MHz.  This includes the
+"Arduino UNO":http://www.pololu.com/catalog/product/1616,
+the older Arduino Duemilanovae,
+the "Baby Orangutan B-328":http://www.pololu.com/catalog/product/1220,
+the "Orangutan SV-328":http://www.pololu.com/catalog/product/1227, and
+the "Arduino Mega":http://www.pololu.com/catalog/product/1699.
+Not all pins on the Arduino Mega are supported (see below).
 
 h2. Getting Started
 
@@ -75,7 +78,7 @@ The fields @red@, @green@, and @blue@ are numbers between 0 and 255 and represen
 
 h3. PololuLedStrip&lt;pin&gt;
 
-The libary defines a template class named @PololuLedStrip<pin>@.  The @pin@ template parameter is an @unsigned char@ and should be the number of the Arduino pin that the LED strip's data input line is connected to.  This template class inherits from the abstract class @PololuLedStripBase@, which is useful if you want to have pointers to LED strip objects.
+The libary defines a template class named @PololuLedStrip<pin>@.  The @pin@ template parameter is an @unsigned char@ and should be the number of the Arduino pin that the LED strip's data input line is connected to.  For ATmega2560-based boards such as the Arduino Mega, only the following pins are usable: 0&ndash;5, 10&ndash;13, 18&ndash;41, and 50&ndash;61 (ports A through G).  This template class inherits from the abstract class @PololuLedStripBase@, which is useful if you want to have pointers to LED strip objects.
 
 This class has no constructor except the default one.  This class has one function:
 
