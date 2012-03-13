@@ -110,6 +110,7 @@ namespace Pololu
         "nop\n" "nop\n" "nop\n" "nop\n"
 #elif F_CPU == 20000000
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
 #else
 #error "Unsupported F_CPU"
 #endif
@@ -124,7 +125,6 @@ namespace Pololu
 		// Delay X
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
-        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
 #endif
 
         "brcc .+2\n" "cbi %2, %3\n"              // If the bit to send is 1, drive the line low now.
@@ -132,6 +132,8 @@ namespace Pololu
 #if F_CPU == 16000000
         "nop\n"
 #elif F_CPU == 20000000
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
 #endif
 
@@ -153,7 +155,7 @@ namespace Pololu
       }
     }
     sei();          // Re-enable interrupts now that we are done.
-    _delay_us(15);  // Hold the line low for 15 microseconds to send the reset signal.
+    _delay_us(24);  // Hold the line low for 24 microseconds to send the reset signal.
   }
 
 }
