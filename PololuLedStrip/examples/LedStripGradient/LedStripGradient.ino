@@ -2,15 +2,15 @@
  * how to control an Addressable RGB LED Strip from Pololu.
  *
  * To use this, you will need to plug an Addressable RGB LED
- * strip from Pololu into pin 8.  After uploading the sketch,
+ * strip from Pololu into pin 13.  After uploading the sketch,
  * you should see a pattern on the LED strip that fades from
  * green to pink and also moves along the strip.
  */
  
 #include <PololuLedStrip.h>
 
-// Create an ledStrip object on pin 8.
-PololuLedStrip<8> ledStrip;
+// Create an ledStrip object on pin 13.
+PololuLedStrip<13> ledStrip;
 
 // Create a buffer for holding 60 colors.  Takes 180 bytes.
 #define LED_COUNT 60
