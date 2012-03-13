@@ -49,7 +49,7 @@ This example code sketch allows you to type colors into the Serial Monitor and s
 
 h2. Timing Details
  
-This library takes about 1.5 ms to update 30 LEDs (1 meter).  The LED strips use a high speed one-wire protocol with relatively strict timing requirements, so this library disables interrupts to ensure reliable color transmission.  Unfortunately, disabling the interrupts causes problems in other libraries that uses interrupts, such as the @Serial@ library and the functions like @millis()@ that keep track of time.
+This library takes about 2 ms to update 30 LEDs (1 meter).  The LED strips use a high speed one-wire protocol with relatively strict timing requirements, so this library disables interrupts to ensure reliable color transmission.  Unfortunately, disabling the interrupts causes problems in other libraries that uses interrupts, such as the @Serial@ library and the functions like @millis()@ that keep track of time.
 
 This library provides an @interruptFriendly@ option that can let it coexist with interrupt-based libraries.  When this option is enabled, the library will temporarily enable interrupts after each color is sent, about every 48 microseconds.  If you can keep all of your interrupts short enough, then this option should allow this library to work in conjunction with your interrupt-based libraries.  However, if you have an interrupt enabled that takes longer than about 8 microseconds (which the Arduino has by default), then this interrupt will sometimes cause an extra long low pulse to emitted, which will be interpreted by the LED strip as a reset command.  This can cause visible flickering in the LED strip. To turn on the @interruptFriendly@ option, add this line to your @setup()@ function:
 
