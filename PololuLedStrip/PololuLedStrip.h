@@ -10,10 +10,6 @@
 #error "This version of the PololuLedStrip library only supports 16 and 20 MHz processors."
 #endif
 
-#if defined(NUM_DIGITAL_PINS) && NUM_DIGITAL_PINS != 20
-#error "This version of the PololuLedStrip library only supports ATmega168/328-based boards."
-#endif
-
 namespace Pololu
 {
   #ifndef _POLOLU_RGB_COLOR
@@ -36,6 +32,9 @@ namespace Pololu
     public:
     void virtual write(rgb_color *, unsigned int count);
   };
+
+  #if !defined(NUM_DIGITAL_PINS) || NUM_DIGITAL_PINS == 20
+  // ATmega168/328-based boards such as the Arduino Uno or Baby Orangutan B-328.
 
   const unsigned char pinBit[] =
   {
@@ -68,6 +67,96 @@ namespace Pololu
     _SFR_IO_ADDR(PORTC),
     _SFR_IO_ADDR(PORTC),
   };
+  
+  #elif NUM_DIGITAL_PINS == 70
+  // ATmega2560-based boards such as the Arduino Mega 2560
+  
+  const unsigned char pinBit[] =
+  {
+    0, 1, 4, 5, 5, 3, 3, 4, 5, 6, 
+    4, 5, 6, 7, 1, 0, 1, 0, 3, 2, 
+    1, 0, 0, 1, 2, 3, 4, 5, 6, 7, 
+    7, 6, 5, 4, 3, 2, 1, 0, 7, 2, 
+    1, 0, 7, 6, 5, 4, 3, 2, 1, 0, 
+    3, 2, 1, 0, 0, 1, 2, 3, 4, 5, 
+    6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 
+  };
+  
+  const unsigned char pinAddr[] =
+  {
+    _SFR_IO_ADDR(PORTE),
+    _SFR_IO_ADDR(PORTE),
+    _SFR_IO_ADDR(PORTE),
+    _SFR_IO_ADDR(PORTE),
+    _SFR_IO_ADDR(PORTG),
+    _SFR_IO_ADDR(PORTE),
+    _SFR_IO_ADDR(PORTH),
+    _SFR_IO_ADDR(PORTH),
+    _SFR_IO_ADDR(PORTH),
+    _SFR_IO_ADDR(PORTH),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTJ),
+    _SFR_IO_ADDR(PORTJ),
+    _SFR_IO_ADDR(PORTH),
+    _SFR_IO_ADDR(PORTH),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTA),
+    _SFR_IO_ADDR(PORTA),
+    _SFR_IO_ADDR(PORTA),
+    _SFR_IO_ADDR(PORTA),
+    _SFR_IO_ADDR(PORTA),
+    _SFR_IO_ADDR(PORTA),
+    _SFR_IO_ADDR(PORTA),
+    _SFR_IO_ADDR(PORTA),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTG),
+    _SFR_IO_ADDR(PORTG),
+    _SFR_IO_ADDR(PORTG),
+    _SFR_IO_ADDR(PORTL),
+    _SFR_IO_ADDR(PORTL),
+    _SFR_IO_ADDR(PORTL),
+    _SFR_IO_ADDR(PORTL),
+    _SFR_IO_ADDR(PORTL),
+    _SFR_IO_ADDR(PORTL),
+    _SFR_IO_ADDR(PORTL),
+    _SFR_IO_ADDR(PORTL),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTK),
+    _SFR_IO_ADDR(PORTK),
+    _SFR_IO_ADDR(PORTK),
+    _SFR_IO_ADDR(PORTK),
+    _SFR_IO_ADDR(PORTK),
+    _SFR_IO_ADDR(PORTK),
+    _SFR_IO_ADDR(PORTK),
+    _SFR_IO_ADDR(PORTK),
+  };
+  
+  #endif
 
   template<unsigned char pin> void PololuLedStrip<pin>::write(rgb_color * colors, unsigned int count)
   {
@@ -107,7 +196,8 @@ namespace Pololu
         "rol __tmp_reg__\n"                      // Rotate left through carry.
 
 #if F_CPU == 16000000
-        "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n"
 #elif F_CPU == 20000000
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
@@ -119,10 +209,9 @@ namespace Pololu
 
 #if F_CPU == 16000000
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
-        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
-        "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n"
 #elif F_CPU == 20000000
-		// Delay X
+        // Delay X
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
 #endif
@@ -130,7 +219,8 @@ namespace Pololu
         "brcc .+2\n" "cbi %2, %3\n"              // If the bit to send is 1, drive the line low now.
 
 #if F_CPU == 16000000
-        "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n"
 #elif F_CPU == 20000000
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
