@@ -31,7 +31,7 @@ h3. Hardware
 
 The addressable RGB LED strips can be purchased on Pololu's website using the links above.
 
-The data input connector for the LED strip is transparent and has two male pins inside.  The wire that has an opaque white highlight is the signal line, and the the other wire is ground.  The LED strip's ground will need to be connected to one of the Arduino's GND pins, and the LED strip's signal line will be need to be connected to one of the Arduino's I/O lines.  Our example sketches assume the signal line is connected to pin 8.  These connections can be made using two "Male-Female Premium Jumper Wires":http://www.pololu.com/catalog/category/67, with the female ends plugging into the LED strip.
+The data input connector for the LED strip is transparent and has two male pins inside.  When looking into the connector and orienting it with the flattened side on the bottom, the left pin is the signal wire and the right pin is ground.  The LED strip's ground will need to be connected to one of the Arduino's GND pins, and the LED strip's signal line will be need to be connected to one of the Arduino's I/O lines.  Our example sketches assume the signal line is connected to pin 8.  These connections can be made using two "Male-Female Premium Jumper Wires":http://www.pololu.com/catalog/category/67, with the female ends plugging into the LED strip.
 
 You will also need to connect a suitable power supply to the LED strip using one of the power connectors.  The power supply must be at the right voltage and provide enough current to meet the LED strip's requirements.
 
