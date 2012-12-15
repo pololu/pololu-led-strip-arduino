@@ -1,13 +1,27 @@
 #ifndef _POLOLU_LED_STRIP_H
 #define _POLOLU_LED_STRIP_H
 
+#include <Arduino.h>
+
+#if defined(__AVR__)
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include <Arduino.h>
+
+#define __enable_irq sei
+#define __disable_irq cli
 
 #if !(F_CPU == 16000000 || F_CPU == 20000000)
-#error "This version of the PololuLedStrip library only supports 16 and 20 MHz processors."
+#error "On an AVR, this version of the PololuLedStrip library only supports 16 and 20 MHz."
+#endif
+
+#elif defined(__arm__)
+
+#if !(F_CPU == 84000000)
+#error "On an ARM, this version of the PololuLedStrip library only supports 84 MHz."
+#endif
+
 #endif
 
 namespace Pololu
@@ -27,13 +41,13 @@ namespace Pololu
     void virtual write(rgb_color *, unsigned int count) = 0;
   };
 
-  template<unsigned char pin> class PololuLedStrip : public PololuLedStripBase
+  template<unsigned char pin, bool invert = false> class PololuLedStrip : public PololuLedStripBase
   {
     public:
     void virtual write(rgb_color *, unsigned int count);
   };
 
-  #if !defined(NUM_DIGITAL_PINS) || NUM_DIGITAL_PINS == 20
+  #if defined(__AVR__) && !defined(NUM_DIGITAL_PINS) || NUM_DIGITAL_PINS == 20
   // ATmega168/328-based boards such as the Arduino Uno or Baby Orangutan B-328.
 
   const unsigned char pinBit[] =
@@ -68,8 +82,8 @@ namespace Pololu
     _SFR_IO_ADDR(PORTC),
   };
   
-  #elif NUM_DIGITAL_PINS == 70
-  // ATmega2560-based boards such as the Arduino Mega 2560
+  #elif defined(__AVR__) && NUM_DIGITAL_PINS == 70
+  // ATmega2560-based boards such as the Arduino Mega 2560.
   
   const unsigned char pinBit[] =
   {
@@ -158,17 +172,40 @@ namespace Pololu
   
   #endif
 
-  template<unsigned char pin> void PololuLedStrip<pin>::write(rgb_color * colors, unsigned int count)
+  template<unsigned char pin, bool invert> void __attribute__((aligned(16))) PololuLedStrip<pin, invert>::write(rgb_color * colors, unsigned int count)
   {
+    #if defined(__AVR__)    
     digitalWrite(pin, LOW);
     pinMode(pin, OUTPUT);
 
-    cli();   // Disable interrupts temporarily because we don't want our pulse timing to be messed up.
+    #elif defined(__arm__)       
+    Pio * port = g_APinDescription[pin].pPort;
+    uint32_t pinValue = g_APinDescription[pin].ulPin;
+    PIO_SetOutput(port, pinValue, invert, 0, 0);
+    
+    volatile WoReg * setReg;
+    volatile WoReg * clearReg;
+    if (invert)
+    {
+      setReg = &port->PIO_CODR;
+      clearReg = &port->PIO_SODR;      
+    }
+    else
+    {
+      setReg = &port->PIO_SODR;
+      clearReg = &port->PIO_CODR;
+    }
+    
+    #endif
+    
+    __disable_irq();   // Disable interrupts temporarily because we don't want our pulse timing to be messed up.
+    
     while(count--)
     {
       // Send a color to the LED strip.
       // The assembly below also increments the 'colors' pointer,
       // it will be pointing to the next color at the end of this loop.
+      #if defined(__AVR__)
       asm volatile(
         "rcall send_led_strip_byte%=\n"  // Send red component.
         "rcall send_led_strip_byte%=\n"  // Send green component.
@@ -233,18 +270,62 @@ namespace Pololu
           "I" (pinAddr[pin]),   // %2 is the port register (e.g. PORTC)
           "I" (pinBit[pin])     // %3 is the pin number (0-8)
       );
+	  
+	    #elif defined(__arm__)
+	    asm volatile(
+        "ldr r12, [%0], #3\n"   // Read the next color and advance the pointer.
+        "rbit r12, r12\n"       // Reverse the order of the bits.
+        "rev r12, r12\n"        // Reverse the order of the bytes.
+        "mov r3, #24\n"         // Initialize the loop counter register.
+
+        "send_led_strip_bit%=:\n"
+        "str %[val], %[set]\n"            // Set the line to logic 1.
+        "rrxs r12, r12\n"                 // Rotate right through carry.
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n"
+        "it cc\n" "strcc %[val], %[clear]\n"  // If the bit to send is 0, set the line to logic 0 now.
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "it cs\n" "strcs %[val], %[clear]\n"  // If the bit to send is 1, set the line to logic 0 now.
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+        "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
+
+        "sub r3, r3, #1\n"                // Decrement the loop counter.
+        "cbz r3, led_strip_asm_end%=\n"   // If we have sent 24 bits, go to the end.
+        "b send_led_strip_bit%=\n"
+        
+        "led_strip_asm_end%=:\n"
+    
+      : "=r" (colors)
+      : "0" (colors),
+      [set] "m" (*setReg),
+      [clear] "m" (*clearReg),
+      [val] "r" (pinValue)
+      : "r3", "r12", "r14", "cc"
+      );
+      
+      #endif
       
       if (PololuLedStripBase::interruptFriendly)
       {
-        // Experimentally we found that one NOP is required after the SEI to actually let the
+        // Experimentally on an AVR we found that one NOP is required after the SEI to actually let the
         // interrupts fire.
-        sei();
+        __enable_irq();
         asm volatile("nop\n");
-        cli();
+        __disable_irq();
       }
     }
-    sei();          // Re-enable interrupts now that we are done.
-    _delay_us(24);  // Hold the line low for 24 microseconds to send the reset signal.
+    __enable_irq();          // Re-enable interrupts now that we are done.
+    delayMicroseconds(24);  // Hold the line low for 24 microseconds to send the reset signal.
   }
 
 }

@@ -21,6 +21,8 @@ This library and the examples are designed to work with the Arduino 1.0 IDE and 
 
 This library currently supports any board based on the ATmega168, ATmega328p, or ATmega2560 which runs at 16 MHz or 20 MHz.  This includes the "Arduino Uno":http://www.pololu.com/catalog/product/2191, the older Arduino Duemilanovae, the "Baby Orangutan B-328":http://www.pololu.com/catalog/product/1220, the "Orangutan SV-328":http://www.pololu.com/catalog/product/1227, and the "Arduino Mega":http://www.pololu.com/catalog/product/1699.  Not all pins on the Arduino Mega are supported (see below).
 
+This library also supports the "Arduino Due":http://www.pololu.com/catalog/product/2193, which is based on the ATSAM3X8E.
+
 h2. Getting Started
 
 h3. Software
@@ -31,7 +33,7 @@ h3. Hardware
 
 The addressable RGB LED strips can be purchased on Pololu's website using the links above.
 
-The data input connector for the LED strip is transparent and has two male pins inside.  When looking into the connector and orienting it with the flattened side on the bottom, the left pin is the signal wire and the right pin is ground.  The LED strip's ground will need to be connected to one of the Arduino's GND pins, and the LED strip's signal line will be need to be connected to one of the Arduino's I/O lines.  Our example sketches assume the signal line is connected to pin 8.  These connections can be made using two "Male-Female Premium Jumper Wires":http://www.pololu.com/catalog/category/67, with the female ends plugging into the LED strip.
+The data input connector for the LED strip is transparent and has two male pins inside.  When looking into the connector and orienting it with the flattened side on the bottom, the left pin is the signal wire and the right pin is ground.  The LED strip's ground will need to be connected to one of the Arduino's GND pins, and the LED strip's signal line will be need to be connected to one of the Arduino's I/O lines.  Our example sketches assume the signal line is connected to pin 12.  These connections can be made using two "Male-Female Premium Jumper Wires":http://www.pololu.com/catalog/category/67, with the female ends plugging into the LED strip.
 
 You will also need to connect a suitable power supply to the LED strip using one of the power connectors.  The power supply must be at the right voltage and provide enough current to meet the LED strip's requirements.
 
@@ -70,9 +72,9 @@ typedef struct rgb_color
 
 The fields @red@, @green@, and @blue@ are numbers between 0 and 255 and represent the brightness of the red, green, and blue color components respectively.
 
-h3. PololuLedStrip&lt;pin&gt;
+h3. PololuLedStrip&lt;pin, invert=false&gt;
 
-The libary defines a template class named @PololuLedStrip<pin>@.  The @pin@ template parameter is an @unsigned char@ and should be the number of the Arduino pin that the LED strip's data input line is connected to.  For ATmega2560-based boards such as the Arduino Mega, only the following pins are usable: 0&ndash;5, 10&ndash;13, 18&ndash;41, and 50&ndash;61 (ports A through G).  This template class inherits from the abstract class @PololuLedStripBase@, which is useful if you want to have pointers to LED strip objects.
+The libary defines a template class named @PololuLedStrip<pin, invert>@.  The @pin@ template parameter is an @unsigned char@ and should be the number of the Arduino pin that the LED strip's data input line is connected to.  The @invert@ parameter, which only works on ARM-based processors (e.g. the Arduino DUE), is a @bool@ and specifies whether the signal should be inverted.  The @invert@ parameter is optional and defaults to false.  For ATmega2560-based boards such as the Arduino Mega, only the following pins are usable: 0&ndash;5, 10&ndash;13, 18&ndash;41, and 50&ndash;61 (ports A through G).  This template class inherits from the abstract class @PololuLedStripBase@, which is useful if you want to have pointers to LED strip objects.
 
 This class has no constructor except the default one.  This class has one function:
 
