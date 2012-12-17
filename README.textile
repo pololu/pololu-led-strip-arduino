@@ -72,9 +72,9 @@ typedef struct rgb_color
 
 The fields @red@, @green@, and @blue@ are numbers between 0 and 255 and represent the brightness of the red, green, and blue color components respectively.
 
-h3. PololuLedStrip&lt;pin, invert=false&gt;
+h3. PololuLedStrip&lt;pin&gt;
 
-The libary defines a template class named @PololuLedStrip<pin, invert>@.  The @pin@ template parameter is an @unsigned char@ and should be the number of the Arduino pin that the LED strip's data input line is connected to.  The @invert@ parameter, which only works on ARM-based processors (e.g. the Arduino DUE), is a @bool@ and specifies whether the signal should be inverted.  The @invert@ parameter is optional and defaults to false.  For ATmega2560-based boards such as the Arduino Mega, only the following pins are usable: 0&ndash;5, 10&ndash;13, 18&ndash;41, and 50&ndash;61 (ports A through G).  This template class inherits from the abstract class @PololuLedStripBase@, which is useful if you want to have pointers to LED strip objects.
+The libary defines a template class named @PololuLedStrip<pin>@.  The @pin@ template parameter is an @unsigned char@ and should be the number of the Arduino pin that the LED strip's data input line is connected to.  For ATmega2560-based boards such as the Arduino Mega, only the following pins are usable: 0&ndash;5, 10&ndash;13, 18&ndash;41, and 50&ndash;61 (ports A through G).  This template class inherits from the abstract class @PololuLedStripBase@, which is useful if you want to have pointers to LED strip objects.
 
 This class has no constructor except the default one.  This class has one function:
 

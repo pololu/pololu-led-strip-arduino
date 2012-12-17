@@ -41,7 +41,7 @@ namespace Pololu
     void virtual write(rgb_color *, unsigned int count) = 0;
   };
 
-  template<unsigned char pin, bool invert = false> class PololuLedStrip : public PololuLedStripBase
+  template<unsigned char pin> class PololuLedStrip : public PololuLedStripBase
   {
     public:
     void virtual write(rgb_color *, unsigned int count);
@@ -172,29 +172,16 @@ namespace Pololu
   
   #endif
 
-  template<unsigned char pin, bool invert> void __attribute__((aligned(16))) PololuLedStrip<pin, invert>::write(rgb_color * colors, unsigned int count)
+  template<unsigned char pin> void __attribute__((aligned(16))) PololuLedStrip<pin>::write(rgb_color * colors, unsigned int count)
   {
-    #if defined(__AVR__)    
+    #if defined(__AVR__)
     digitalWrite(pin, LOW);
     pinMode(pin, OUTPUT);
 
-    #elif defined(__arm__)       
+    #elif defined(__arm__)
     Pio * port = g_APinDescription[pin].pPort;
     uint32_t pinValue = g_APinDescription[pin].ulPin;
-    PIO_SetOutput(port, pinValue, invert, 0, 0);
-    
-    volatile WoReg * setReg;
-    volatile WoReg * clearReg;
-    if (invert)
-    {
-      setReg = &port->PIO_CODR;
-      clearReg = &port->PIO_SODR;      
-    }
-    else
-    {
-      setReg = &port->PIO_SODR;
-      clearReg = &port->PIO_CODR;
-    }
+    PIO_SetOutput(port, pinValue, LOW, 0, 0);
     
     #endif
     
@@ -279,7 +266,7 @@ namespace Pololu
         "mov r3, #24\n"         // Initialize the loop counter register.
 
         "send_led_strip_bit%=:\n"
-        "str %[val], %[set]\n"            // Set the line to logic 1.
+        "str %[val], %[set]\n"            // Drive the line high.
         "rrxs r12, r12\n"                 // Rotate right through carry.
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
@@ -287,13 +274,13 @@ namespace Pololu
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n"
-        "it cc\n" "strcc %[val], %[clear]\n"  // If the bit to send is 0, set the line to logic 0 now.
+        "it cc\n" "strcc %[val], %[clear]\n"  // If the bit to send is 0, set the line low now.
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
-        "it cs\n" "strcs %[val], %[clear]\n"  // If the bit to send is 1, set the line to logic 0 now.
+        "it cs\n" "strcs %[val], %[clear]\n"  // If the bit to send is 1, set the line low now.
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
@@ -304,13 +291,13 @@ namespace Pololu
         "b send_led_strip_bit%=\n"
         
         "led_strip_asm_end%=:\n"
-    
+
       : "=r" (colors)
       : "0" (colors),
-      [set] "m" (*setReg),
-      [clear] "m" (*clearReg),
-      [val] "r" (pinValue)
-      : "r3", "r12", "r14", "cc"
+        [set] "m" (port->PIO_SODR),
+        [clear] "m" (port->PIO_CODR),
+        [val] "r" (pinValue)
+      : "r3", "r12", "cc"
       );
       
       #endif
