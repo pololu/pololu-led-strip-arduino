@@ -90,5 +90,5 @@ No special code is required to chain LED strips together.  An X-meter LED strip 
 
 h2. Version History
 
-* 1.0.0 (2012-03-09): Original release.
 * 1.1.0 (2012-12-17): Added support for ATmega32U4-based boards such as the Arduino Leonardo.  Added support for ARM-based boards such as the Arduino Due.
+* 1.0.0 (2012-03-09): Original release.
