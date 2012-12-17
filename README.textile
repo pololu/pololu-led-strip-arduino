@@ -19,9 +19,9 @@ h2. Supported Platforms
 
 This library and the examples are designed to work with the Arduino 1.0 IDE and probably will not work with earlier versions.
 
-This library currently supports any board based on the ATmega168, ATmega328p, or ATmega2560 which runs at 16 MHz or 20 MHz.  This includes the "Arduino Uno":http://www.pololu.com/catalog/product/2191, the older Arduino Duemilanovae, the "Baby Orangutan B-328":http://www.pololu.com/catalog/product/1220, the "Orangutan SV-328":http://www.pololu.com/catalog/product/1227, and the "Arduino Mega":http://www.pololu.com/catalog/product/1699.  Not all pins on the Arduino Mega are supported (see below).
+This library currently supports any board based on the ATmega168, ATmega328p, ATmega32U4, or ATmega2560 which runs at 16 MHz or 20 MHz.  This includes the "Arduino Uno":http://www.pololu.com/catalog/product/2191, the older Arduino Duemilanovae, the "Baby Orangutan B-328":http://www.pololu.com/catalog/product/1220, the "Orangutan SV-328":http://www.pololu.com/catalog/product/1227, the "Arduino Leonardo":http://www.pololu.com/catalog/product/2192 and the "Arduino Mega":http://www.pololu.com/catalog/product/1699.  Not all pins on the Arduino Mega are supported (see below).
 
-This library also supports the "Arduino Due":http://www.pololu.com/catalog/product/2193, which is based on the ATSAM3X8E.
+This library also supports the Arduino Due, which is based on the ATSAM3X8E.
 
 h2. Getting Started
 

@@ -4,7 +4,6 @@
 #include <Arduino.h>
 
 #if defined(__AVR__)
-
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -47,8 +46,58 @@ namespace Pololu
     void virtual write(rgb_color *, unsigned int count);
   };
 
-  #if defined(__AVR__) && !defined(NUM_DIGITAL_PINS) || NUM_DIGITAL_PINS == 20
-  // ATmega168/328-based boards such as the Arduino Uno or Baby Orangutan B-328.
+  #if defined(__AVR_ATmega32U4__)
+  // ATmega32U4-based boards such as the Arduino Leonardo
+
+  const unsigned char pinBit[] =
+  {
+    2, 3, 1, 0, 4, 6, 7, 6,  // Pins 0-7
+    4, 5, 6, 7, 6, 7,        // Pins 8-13
+    3, 1, 2, 0,              // Pins 14-17
+    7, 6, 5, 4, 1, 0,        // Pins 18-23
+    4, 7, 4, 5, 6, 6,        // Pins 24-29
+  };
+  
+  const unsigned char pinAddr[] =
+  {
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTE),
+    
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTC),
+
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+    _SFR_IO_ADDR(PORTF),
+
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTD),    
+  };
+  
+  #elif defined(__AVR__) && !defined(NUM_DIGITAL_PINS) || NUM_DIGITAL_PINS == 20
+  // ATmega168/328-based boards such as the Arduino Uno or Baby Orangutan B-328
 
   const unsigned char pinBit[] =
   {
@@ -83,7 +132,7 @@ namespace Pololu
   };
   
   #elif defined(__AVR__) && NUM_DIGITAL_PINS == 70
-  // ATmega2560-based boards such as the Arduino Mega 2560.
+  // ATmega2560-based boards such as the Arduino Mega 2560
   
   const unsigned char pinBit[] =
   {
