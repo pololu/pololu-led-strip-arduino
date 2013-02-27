@@ -79,7 +79,7 @@ The libary defines a template class named @PololuLedStrip<pin>@.  The @pin@ temp
 
 This class has no constructor except the default one.  This class has one function:
 
-- @void write(rgb_color * colors, unsigned int count)@ := Writes the specified colors to the LED strip.  The @colors@ parameter should be a pointer to an array of @rgb_color@ structs in RAM.  The @count@ parameter is the number of colors to write.  The first color in the array will be written to the LED closest to the data input connector.  To update all the LEDs in the LED strip, @count@ should be equal to greater than the number of LEDs in the strip.  If @count@ is less than the number of LEDs in the strip, then some LEDs near the end of the strip will not be updated.  This function disables interrupts temporarily.  This function pauses for over 10 us at the end before returning to allow the colors to take effect.
+- @void write(rgb_color * colors, unsigned int count)@ := Writes the specified colors to the LED strip.  The @colors@ parameter should be a pointer to an array of @rgb_color@ structs in RAM.  The @count@ parameter is the number of colors to write.  The first color in the array will be written to the LED closest to the data input connector.  To update all the LEDs in the LED strip, @count@ should be equal to or greater than the number of LEDs in the strip.  If @count@ is less than the number of LEDs in the strip, then some LEDs near the end of the strip will not be updated.  This function disables interrupts temporarily.  This function pauses for over 10 us at the end before returning to allow the colors to take effect.
 
 h3. PololuLedStripBase
 
