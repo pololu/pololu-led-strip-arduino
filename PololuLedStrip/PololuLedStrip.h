@@ -308,8 +308,8 @@ namespace Pololu
           "I" (pinBit[pin])     // %3 is the pin number (0-8)
       );
 
-	    #elif defined(__arm__)
-	    asm volatile(
+      #elif defined(__arm__)
+      asm volatile(
         "ldr r12, [%0], #3\n"   // Read the next color and advance the pointer.
         "rbit r12, r12\n"       // Reverse the order of the bits.
         "rev r12, r12\n"        // Reverse the order of the bytes.
