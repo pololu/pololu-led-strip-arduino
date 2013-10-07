@@ -1,7 +1,7 @@
 h1. Arduino library for addressable RGB LED strips from Pololu
 
-Version: 1.1.0
-Release Date: 2012-12-17
+Version: 1.2.0
+Release Date: 2013-10-07
 "www.pololu.com":http://www.pololu.com/
 
 !http://www.pololu.com/picture/0J3842.250.jpg!:http://www.pololu.com/picture/view/0J3842
@@ -10,15 +10,18 @@ h2. Summary
 
 This is a library for the "Arduino":http://pololu.com/catalog/product/2191 for controlling the addressable RGB LED strips from Pololu:
 
-* "Addressable RGB 30-LED Strip, 5V, 1m":http://www.pololu.com/catalog/product/2540
-* "Addressable RGB 60-LED Strip, 5V, 2m":http://www.pololu.com/catalog/product/2541
-* "Addressable RGB 150-LED Strip, 5V, 5m":http://www.pololu.com/catalog/product/2542
+* "Addressable RGB 30-LED Strip, 5V, 1m, Low-Speed":http://www.pololu.com/catalog/product/2540
+* "Addressable RGB 60-LED Strip, 5V, 2m, Low-Speed":http://www.pololu.com/catalog/product/2541
+* "Addressable RGB 150-LED Strip, 5V, 5m, Low-Speed":http://www.pololu.com/catalog/product/2542
+* "Addressable RGB 30-LED Strip, 5V, 1m":http://www.pololu.com/catalog/product/2543
+* "Addressable RGB 60-LED Strip, 5V, 2m":http://www.pololu.com/catalog/product/2544
+* "Addressable RGB 150-LED Strip, 5V, 5m":http://www.pololu.com/catalog/product/2545
 
 It allows complete control over the color of an arbitrary number of LED strips with an arbitrary number of LEDs.  Each LED can be individually controlled, and LED strips can be chained together.
 
 h2. Supported Platforms
 
-This library and the examples are designed to work with the Arduino 1.0 IDE and probably will not work with earlier versions.
+This library and the examples are designed to work with the Arduino IDE versions 1.0 and 1.5 and probably will not work with earlier versions.
 
 This library currently supports any board based on the ATmega168, ATmega328p, ATmega32U4, or ATmega2560 which runs at 16 MHz or 20 MHz.  This includes the "Arduino Uno":http://www.pololu.com/catalog/product/2191, the older Arduino Duemilanovae, the "Baby Orangutan B-328":http://www.pololu.com/catalog/product/1220, the "Orangutan SV-328":http://www.pololu.com/catalog/product/1227, the "Arduino Leonardo":http://www.pololu.com/catalog/product/2192 and the "Arduino Mega":http://www.pololu.com/catalog/product/1699.  Not all pins on the Arduino Mega are supported (see below).
 
@@ -34,7 +37,7 @@ h3. Hardware
 
 The addressable RGB LED strips can be purchased on Pololu's website using the links above.
 
-The data input connector for the LED strip is transparent and has two male pins inside.  When looking into the connector and orienting it with the flattened side on the bottom, the left pin is the signal wire and the right pin is ground.  The LED strip's ground will need to be connected to one of the Arduino's GND pins, and the LED strip's signal line will be need to be connected to one of the Arduino's I/O lines.  Our example sketches assume the signal line is connected to pin 12.  These connections can be made using two "Male-Female Premium Jumper Wires":http://www.pololu.com/catalog/category/67, with the female ends plugging into the LED strip.
+The LED strip's data input connector has two pins that should be connected to the Arduino.  The LED strip's ground will need to be connected to one of the Arduino's GND pins, and the LED strip's signal input line will be need to be connected to one of the Arduino's I/O lines.  Our example sketches assume the signal line is connected to pin 12.  These connections can be made using two "Male-Female Premium Jumper Wires":http://www.pololu.com/catalog/category/67, with the female ends plugging into the LED strip.
 
 You will also need to connect a suitable power supply to the LED strip using one of the power connectors.  The power supply must be at the right voltage and provide enough current to meet the LED strip's requirements.
 
