@@ -57,7 +57,7 @@ namespace Pololu
     7, 6, 5, 4, 1, 0,        // Pins 18-23
     4, 7, 4, 5, 6, 6,        // Pins 24-29
   };
-  
+
   const unsigned char pinAddr[] =
   {
     _SFR_IO_ADDR(PORTD),
@@ -68,7 +68,7 @@ namespace Pololu
     _SFR_IO_ADDR(PORTC),
     _SFR_IO_ADDR(PORTD),
     _SFR_IO_ADDR(PORTE),
-    
+
     _SFR_IO_ADDR(PORTB),
     _SFR_IO_ADDR(PORTB),
     _SFR_IO_ADDR(PORTB),
@@ -93,9 +93,9 @@ namespace Pololu
     _SFR_IO_ADDR(PORTB),
     _SFR_IO_ADDR(PORTB),
     _SFR_IO_ADDR(PORTB),
-    _SFR_IO_ADDR(PORTD),    
+    _SFR_IO_ADDR(PORTD),
   };
-  
+
   #elif defined(__AVR__) && !defined(NUM_DIGITAL_PINS) || NUM_DIGITAL_PINS == 20
   // ATmega168/328-based boards such as the Arduino Uno or Baby Orangutan B-328
 
@@ -130,21 +130,21 @@ namespace Pololu
     _SFR_IO_ADDR(PORTC),
     _SFR_IO_ADDR(PORTC),
   };
-  
+
   #elif defined(__AVR__) && NUM_DIGITAL_PINS == 70
   // ATmega2560-based boards such as the Arduino Mega 2560
-  
+
   const unsigned char pinBit[] =
   {
-    0, 1, 4, 5, 5, 3, 3, 4, 5, 6, 
-    4, 5, 6, 7, 1, 0, 1, 0, 3, 2, 
-    1, 0, 0, 1, 2, 3, 4, 5, 6, 7, 
-    7, 6, 5, 4, 3, 2, 1, 0, 7, 2, 
-    1, 0, 7, 6, 5, 4, 3, 2, 1, 0, 
-    3, 2, 1, 0, 0, 1, 2, 3, 4, 5, 
-    6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 
+    0, 1, 4, 5, 5, 3, 3, 4, 5, 6,
+    4, 5, 6, 7, 1, 0, 1, 0, 3, 2,
+    1, 0, 0, 1, 2, 3, 4, 5, 6, 7,
+    7, 6, 5, 4, 3, 2, 1, 0, 7, 2,
+    1, 0, 7, 6, 5, 4, 3, 2, 1, 0,
+    3, 2, 1, 0, 0, 1, 2, 3, 4, 5,
+    6, 7, 0, 1, 2, 3, 4, 5, 6, 7,
   };
-  
+
   const unsigned char pinAddr[] =
   {
     _SFR_IO_ADDR(PORTE),
@@ -218,7 +218,7 @@ namespace Pololu
     _SFR_IO_ADDR(PORTK),
     _SFR_IO_ADDR(PORTK),
   };
-  
+
   #endif
 
   template<unsigned char pin> void __attribute__((aligned(16))) PololuLedStrip<pin>::write(rgb_color * colors, unsigned int count)
@@ -231,11 +231,11 @@ namespace Pololu
     Pio * port = g_APinDescription[pin].pPort;
     uint32_t pinValue = g_APinDescription[pin].ulPin;
     PIO_SetOutput(port, pinValue, LOW, 0, 0);
-    
+
     #endif
-    
+
     __disable_irq();   // Disable interrupts temporarily because we don't want our pulse timing to be messed up.
-    
+
     while(count--)
     {
       // Send a color to the LED strip.
@@ -276,7 +276,7 @@ namespace Pololu
 #error "Unsupported F_CPU"
 #endif
 
-        "brcs .+2\n" "cbi %2, %3\n"              // If the bit to send is 0, drive the line low now.    
+        "brcs .+2\n" "cbi %2, %3\n"              // If the bit to send is 0, drive the line low now.
 
 #if F_CPU == 16000000
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
@@ -307,7 +307,7 @@ namespace Pololu
           "I" (pinAddr[pin]),   // %2 is the port register (e.g. PORTC)
           "I" (pinBit[pin])     // %3 is the pin number (0-8)
       );
-	  
+
 	    #elif defined(__arm__)
 	    asm volatile(
         "ldr r12, [%0], #3\n"   // Read the next color and advance the pointer.
@@ -343,14 +343,14 @@ namespace Pololu
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
-        
-        
+
+
         /* When we update the library to only support the high-speed LED strips, we can use this code:
            (0 pulse 400us, 1 pulse 800us, rising edge every 1250us)
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
-        
+
         "it cc\n" "strcc %[val], %[clear]\n"  // If the bit to send is 0, set the line low now.
 
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
@@ -367,7 +367,7 @@ namespace Pololu
         "sub r3, r3, #1\n"                // Decrement the loop counter.
         "cbz r3, led_strip_asm_end%=\n"   // If we have sent 24 bits, go to the end.
         "b send_led_strip_bit%=\n"
-        
+
         "led_strip_asm_end%=:\n"
 
       : "=r" (colors)
@@ -377,9 +377,9 @@ namespace Pololu
         [val] "r" (pinValue)
       : "r3", "r12", "cc"
       );
-      
+
       #endif
-      
+
       if (PololuLedStripBase::interruptFriendly)
       {
         // Experimentally on an AVR we found that one NOP is required after the SEI to actually let the
