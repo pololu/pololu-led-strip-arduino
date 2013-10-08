@@ -1,6 +1,6 @@
 h1. Arduino library for addressable RGB LED strips from Pololu
 
-Version: 1.2.0
+Version: 2.0.0
 Release Date: 2013-10-07
 "www.pololu.com":http://www.pololu.com/
 
@@ -8,16 +8,15 @@ Release Date: 2013-10-07
 
 h2. Summary
 
-This is a library for the "Arduino":http://pololu.com/catalog/product/2191 for controlling the addressable RGB LED strips from Pololu:
+This is a library for the "Arduino":http://pololu.com/catalog/product/2191 for controlling these addressable RGB LED strips from Pololu:
 
-* "Addressable RGB 30-LED Strip, 5V, 1m, Low-Speed":http://www.pololu.com/catalog/product/2540
-* "Addressable RGB 60-LED Strip, 5V, 2m, Low-Speed":http://www.pololu.com/catalog/product/2541
-* "Addressable RGB 150-LED Strip, 5V, 5m, Low-Speed":http://www.pololu.com/catalog/product/2542
 * "Addressable RGB 30-LED Strip, 5V, 1m":http://www.pololu.com/catalog/product/2543
 * "Addressable RGB 60-LED Strip, 5V, 2m":http://www.pololu.com/catalog/product/2544
 * "Addressable RGB 150-LED Strip, 5V, 5m":http://www.pololu.com/catalog/product/2545
 
-It allows complete control over the color of an arbitrary number of LED strips with an arbitrary number of LEDs.  Each LED can be individually controlled, and LED strips can be chained together.
+This library does not support the older low-speed LED strips.  If you want to control those, we recommend using "version 1.2.0":https://github.com/pololu/pololu-led-strip-arduino/releases/tag/1.2.0, which can work with either the high-speed or low-speed versions.
+
+This library allows complete control over the color of an arbitrary number of LED strips with an arbitrary number of LEDs.  Each LED can be individually controlled, and LED strips can be chained together.
 
 h2. Supported Platforms
 
@@ -55,9 +54,9 @@ This example code sketch allows you to type colors into the Serial Monitor and s
 
 h2. Timing Details
  
-This library takes about 2 ms to update 30 LEDs (1 meter).  The LED strips use a high speed one-wire protocol with relatively strict timing requirements, so this library disables interrupts to ensure reliable color transmission.  Unfortunately, disabling the interrupts causes problems in other libraries that uses interrupts, such as the @Serial@ library and the functions like @millis()@ that keep track of time.
+This library takes about 1.1 ms to update 30 LEDs (1 meter).  The LED strips use a high speed one-wire protocol with relatively strict timing requirements, so this library disables interrupts to ensure reliable color transmission.  Unfortunately, disabling the interrupts causes problems in other libraries that uses interrupts, such as the @Serial@ library and the functions like @millis()@ that keep track of time.
 
-This library provides an @interruptFriendly@ option that can let it coexist with interrupt-based libraries.  When this option is enabled, the library will temporarily enable interrupts after each color is sent, about every 48 microseconds.  If you can keep all of your interrupts short enough, then this option should allow this library to work in conjunction with your interrupt-based libraries.  However, if you have an interrupt enabled that takes longer than about 8 microseconds (which the Arduino has by default), then this interrupt will sometimes cause an extra long low pulse to emitted, which will be interpreted by the LED strip as a reset command.  This can cause visible flickering in the LED strip. To turn on the @interruptFriendly@ option, add this line to your @setup()@ function:
+This library provides an @interruptFriendly@ option that can let it coexist with interrupt-based libraries.  When this option is enabled, the library will temporarily enable interrupts after each color is sent, about every 36 microseconds.  If you can keep all of your interrupts short enough, then this option should allow this library to work in conjunction with your interrupt-based libraries.  However, if you have an interrupt enabled that takes longer than about 8 microseconds (which the Arduino has by default), then this interrupt will sometimes cause an extra long low pulse to emitted, which will be interpreted by the LED strip as a reset command.  This can cause visible flickering in the LED strip. To turn on the @interruptFriendly@ option, add this line to your @setup()@ function:
 
 pre.  PololuLedStripBase::interruptFriendly = true;
 
@@ -86,7 +85,7 @@ This class has no constructor except the default one.  This class has one functi
 
 h3. PololuLedStripBase
 
-- @static bool interruptFriendly;@ := This option defaults to @false@.  Setting this to @true@ changes the behavior of the @write@ function, making it enable interrupts after each color is sent, about every 48 microseconds.  See the discussion above.
+- @static bool interruptFriendly;@ := This option defaults to @false@.  Setting this to @true@ changes the behavior of the @write@ function, making it enable interrupts after each color is sent, about every 36 microseconds.  See the discussion above.
 
 h2. Chaining LED Strips together
 
@@ -94,6 +93,7 @@ No special code is required to chain LED strips together.  An X-meter LED strip 
 
 h2. Version History
 
+* 2.0.0 (2013-10-07): Dropped support for the older, slower LED strips in order to make the library faster.
 * 1.2.0 (2013-10-07): Changed the timing so that this library will work the new high-speed strips but also keep working with the old low-speed strips.
 * 1.1.0 (2012-12-17): Added support for ATmega32U4-based boards such as the Arduino Leonardo.  Added support for ARM-based boards such as the Arduino Due.
 * 1.0.0 (2012-03-09): Original release.
