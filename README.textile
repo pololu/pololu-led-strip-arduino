@@ -48,6 +48,10 @@ h3. LedStripGradient
 
 This example code sketch lights up the LED strip with a moving gradient pattern.  You can open this example sketch by selecting File->Examples->PololuLedStrip->LedStripGradient.  Click the "Upload" button to load it onto your board.
 
+h3. LedStripRainbow
+
+This example is like LedStripGradient, but makes a rainbow pattern instead.  You can open this example sketch by selecting File->Examples->PololuLedStrip->LedStripRainbow.  Click the "Upload" button to load it onto your board.
+
 h3. LedStripColorTester
 
 This example code sketch allows you to type colors into the Serial Monitor and see them on the LED strip.  You can open this example by selecting File->Examples->PololuLedStrip->LedStripColorTester.  Click the "Upload" button to load it onto your board.  See the comments in the code for more information on how to use it.
