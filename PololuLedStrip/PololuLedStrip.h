@@ -301,11 +301,17 @@ namespace Pololu
 
       #elif defined(__arm__)
       asm volatile(
-        // TODO: update the mbed lirbary's algorithm and copy it to here
-        "ldr r12, [%0], #3\n"   // Read the next color and advance the pointer.  -> xxBbGgRr
-        "rbit r12, r12\n"       // Reverse the order of the bits.                -> rRgGbBxx
-        "rev r12, r12\n"        // Reverse the order of the bytes.               -> xxbBgGrR
-
+        "ldrb r12, [%0, #1]\n"    // Load green.
+        "lsls r12, r12, #24\n"    // Put green in MSB of color register.
+        "ldrb r3, [%0, #0]\n"     // Load red.
+        "lsls r3, r3, #16\n"
+        "orrs r12, r12, r3\n"     // Put red in color register.
+        "ldrb r3, [%0, #2]\n"     // Load blue.
+        "lsls r3, r3, #8\n"
+        "orrs r12, r12, r3\n"     // Put blue in LSB of color register.
+        "rbit r12, r12\n"         // Reverse the bits so we can use right rotations.
+        "adds  %0, %0, #3\n"      // Advance pointer to next color.
+    
         "mov r3, #24\n"           // Initialize the loop counter register.
 
         "send_led_strip_bit%=:\n"
