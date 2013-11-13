@@ -1,5 +1,4 @@
-#ifndef _POLOLU_LED_STRIP_H
-#define _POLOLU_LED_STRIP_H
+#pragma once
 
 #include <Arduino.h>
 
@@ -243,14 +242,19 @@ namespace Pololu
       // it will be pointing to the next color at the end of this loop.
       #if defined(__AVR__)
       asm volatile(
-        "rcall send_led_strip_byte%=\n"  // Send red component.
+        "ld __tmp_reg__, %a0+\n"         // Advance pointer from red to green.
+        "ld __tmp_reg__, %a0\n"          // Read the green component and leave the pointer pointing to green.
         "rcall send_led_strip_byte%=\n"  // Send green component.
+        "ld __tmp_reg__, -%a0\n"         // Read the red component and leave the pointer at red.
+        "rcall send_led_strip_byte%=\n"  // Send green component.
+        "ld __tmp_reg__, %a0+\n"         // Advance pointer from red to green.
+        "ld __tmp_reg__, %a0+\n"         // Advance pointer from green to blue.
+        "ld __tmp_reg__, %a0+\n"         // Read the blue component and leave the pointer on the next color's red.
         "rcall send_led_strip_byte%=\n"  // Send blue component.
         "rjmp led_strip_asm_end%=\n"     // Jump past the assembly subroutines.
 
         // send_led_strip_byte subroutine:  Sends a byte to the LED strip.
         "send_led_strip_byte%=:\n"
-        "ld __tmp_reg__, %a0+\n"        // Read the next color brightness byte and advance the pointer
         "rcall send_led_strip_bit%=\n"  // Send most-significant bit (bit 7).
         "rcall send_led_strip_bit%=\n"
         "rcall send_led_strip_bit%=\n"
@@ -297,10 +301,12 @@ namespace Pololu
 
       #elif defined(__arm__)
       asm volatile(
-        "ldr r12, [%0], #3\n"   // Read the next color and advance the pointer.
-        "rbit r12, r12\n"       // Reverse the order of the bits.
-        "rev r12, r12\n"        // Reverse the order of the bytes.
-        "mov r3, #24\n"         // Initialize the loop counter register.
+        // TODO: update the mbed lirbary's algorithm and copy it to here
+        "ldr r12, [%0], #3\n"   // Read the next color and advance the pointer.  -> xxBbGgRr
+        "rbit r12, r12\n"       // Reverse the order of the bits.                -> rRgGbBxx
+        "rev r12, r12\n"        // Reverse the order of the bytes.               -> xxbBgGrR
+
+        "mov r3, #24\n"           // Initialize the loop counter register.
 
         "send_led_strip_bit%=:\n"
         "str %[val], %[set]\n"            // Drive the line high.
@@ -347,12 +353,10 @@ namespace Pololu
         __disable_irq();
       }
     }
-    __enable_irq();          // Re-enable interrupts now that we are done.
+    __enable_irq();         // Re-enable interrupts now that we are done.
     delayMicroseconds(24);  // Hold the line low for 24 microseconds to send the reset signal.
   }
 
 }
 
 using namespace Pololu;
-
-#endif
