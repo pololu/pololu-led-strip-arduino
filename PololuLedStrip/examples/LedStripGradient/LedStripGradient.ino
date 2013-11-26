@@ -9,10 +9,10 @@
  
 #include <PololuLedStrip.h>
 
-// Create an ledStrip object on pin 12.
+// Create an ledStrip object and specify the pin it will use.
 PololuLedStrip<12> ledStrip;
 
-// Create a buffer for holding 60 colors.  Takes 180 bytes.
+// Create a buffer for holding the colors (3 bytes per color).
 #define LED_COUNT 60
 rgb_color colors[LED_COUNT];
 
