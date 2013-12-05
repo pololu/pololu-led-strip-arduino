@@ -4,7 +4,7 @@ Version: 3.0.0
 Release Date: 2013-12-05
 "www.pololu.com":http://www.pololu.com/
 
-!http://b.pololu-files.com/picture/0J4995.600.jpg?5da10b3ac92a70e8bd253c7ed06dc0b1!:http://www.pololu.com/picture/view/0J4995
+!http://b.pololu-files.com/picture/0J4995.250.jpg?5da10b3ac92a70e8bd253c7ed06dc0b1!:http://www.pololu.com/picture/view/0J4995
 
 h2. Summary
 
