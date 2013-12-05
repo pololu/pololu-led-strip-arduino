@@ -1,26 +1,26 @@
 h1. Arduino library for addressable RGB LED strips from Pololu
 
 Version: 3.0.0
-Release Date: 2013-11-28
+Release Date: 2013-12-05
 "www.pololu.com":http://www.pololu.com/
 
-!http://www.pololu.com/picture/0J3842.250.jpg!:http://www.pololu.com/picture/view/0J3842
+!http://b.pololu-files.com/picture/0J4995.600.jpg?5da10b3ac92a70e8bd253c7ed06dc0b1!:http://www.pololu.com/picture/view/0J4995
 
 h2. Summary
 
 This is a library for the Arduino for controlling these LED strips from Pololu based on the WS2812B:
 
-* "Addressable RGB 30-LED Strip, 5V, 1m, WS2812B":http://www.pololu.com/catalog/product/2546
-* "Addressable RGB 60-LED Strip, 5V, 2m, WS2812B":http://www.pololu.com/catalog/product/2547
-* "Addressable RGB 150-LED Strip, 5V, 5m, WS2812B":http://www.pololu.com/catalog/product/2548
-* "Addressable RGB 60-LED Strip, 5V, 1m, WS2812B":http://www.pololu.com/catalog/product/2549
-* "Addressable RGB 120-LED Strip, 5V, 2m, WS2812B":http://www.pololu.com/catalog/product/2550
+* "Addressable RGB 30-LED Strip, 5V, 1m (WS2812B)":http://www.pololu.com/catalog/product/2546
+* "Addressable RGB 60-LED Strip, 5V, 2m (WS2812B)":http://www.pololu.com/catalog/product/2547
+* "Addressable RGB 150-LED Strip, 5V, 5m (WS2812B)":http://www.pololu.com/catalog/product/2548
+* "Addressable RGB 60-LED Strip, 5V, 1m (WS2812B)":http://www.pololu.com/catalog/product/2549
+* "Addressable RGB 120-LED Strip, 5V, 2m (WS2812B)":http://www.pololu.com/catalog/product/2550
 
 This library also supports the older high-speed TM1804 LED strips, which are listed below.  However, the red and green channels on the TM1804 are swapped relative to the WS2812B, so you will need to swap those channels in your code.
 
-* "Addressable RGB 30-LED Strip, 5V, 1m, High-speed TM1804":http://www.pololu.com/catalog/product/2543
-* "Addressable RGB 60-LED Strip, 5V, 2m, High-speed TM1804":http://www.pololu.com/catalog/product/2544
-* "Addressable RGB 150-LED Strip, 5V, 5m, High-speed TM1804":http://www.pololu.com/catalog/product/2545
+* "Addressable RGB 30-LED Strip, 5V, 1m (High-Speed TM1804)":http://www.pololu.com/catalog/product/2543
+* "Addressable RGB 60-LED Strip, 5V, 2m (High-Speed TM1804)":http://www.pololu.com/catalog/product/2544
+* "Addressable RGB 150-LED Strip, 5V, 5m (High-Speed TM1804)":http://www.pololu.com/catalog/product/2545
 
 If you have the high-speed TM1804 LED strips, you might prefer to use "version 2.1.0":https://github.com/pololu/pololu-led-strip-arduino/releases/tag/2.1.0 of the library, which does not require you to swap red and green in your code.
 
