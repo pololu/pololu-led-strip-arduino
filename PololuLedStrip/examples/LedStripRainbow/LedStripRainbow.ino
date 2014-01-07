@@ -46,7 +46,7 @@ void loop()
 {
   // Update the colors.
   uint16_t time = millis() >> 2;
-  for(byte i = 0; i < LED_COUNT; i++)
+  for(uint16_t i = 0; i < LED_COUNT; i++)
   {
     byte x = (time >> 2) - (i << 3);
     colors[i] = hsvToRgb((uint32_t)x * 359 / 256, 255, 255);

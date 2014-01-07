@@ -59,7 +59,7 @@ void loop()
       color.blue = Serial.parseInt();
 
       // Update the colors buffer.
-      for(byte i = 0; i < LED_COUNT; i++)
+      for(uint16_t i = 0; i < LED_COUNT; i++)
       {
         colors[i] = color;
       }

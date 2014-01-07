@@ -24,7 +24,7 @@ void loop()
 {
   // Update the colors.
   byte time = millis() >> 2;
-  for(byte i = 0; i < LED_COUNT; i++)
+  for(uint16_t i = 0; i < LED_COUNT; i++)
   {
     byte x = time - 8*i;
     colors[i] = (rgb_color){ x, 255 - x, x };
