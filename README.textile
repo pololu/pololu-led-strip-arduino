@@ -1,6 +1,6 @@
 h1. Arduino library for addressable RGB LED strips from Pololu
 
-Version: 3.1.0
+Version: 3.1.1
 Release Date: 2013-12-19
 "www.pololu.com":http://www.pololu.com/
 
@@ -109,6 +109,7 @@ No special code is required to chain LED strips together.  An X-meter LED strip 
 
 h2. Version History
 
+* 3.1.1 (2014-01-07): Changed the examples to use @uint16_t@ instead of @byte@ for @i@, making it easier to expand them beyond 254 LEDs.
 * 3.1.0 (2013-12-19): Added the LedStripXmas example.
 * 3.0.0 (2013-11-20): Switched the red and the green channels and increased the reset time so that this library will work nicely with the new WS2812 and WS2182B LED strips.  The high-speed TM1804 LED strips still work if you switch red and green in your code.
 * 2.1.0 (2013-11-11): Added the LedStripRainbow example.
