@@ -6,7 +6,7 @@
  * strip from Pololu into pin 12.  After uploading the sketch,
  * you should see a moving rainbow.
  */
- 
+
 #include <PololuLedStrip.h>
 
 // Create an ledStrip object and specify the pin it will use.
@@ -27,9 +27,9 @@ void setup()
 rgb_color hsvToRgb(uint16_t h, uint8_t s, uint8_t v)
 {
     uint8_t f = (h % 60) * 255 / 60;
-    uint8_t p = v * (255 - s) / 255;
-    uint8_t q = v * (255 - f * s / 255) / 255;
-    uint8_t t = v * (255 - (255 - f) * s / 255) / 255;
+    uint8_t p = (255 - s) * (uint16_t)v / 255;
+    uint8_t q = (255 - f * (uint16_t)s / 255) * (uint16_t)v / 255;
+    uint8_t t = (255 - (255 - f) * (uint16_t)s / 255) * (uint16_t)v / 255;
     uint8_t r = 0, g = 0, b = 0;
     switch((h / 60) % 6){
         case 0: r = v; g = t; b = p; break;
@@ -51,9 +51,9 @@ void loop()
     byte x = (time >> 2) - (i << 3);
     colors[i] = hsvToRgb((uint32_t)x * 359 / 256, 255, 255);
   }
-  
+
   // Write the colors to the LED strip.
-  ledStrip.write(colors, LED_COUNT);  
-  
+  ledStrip.write(colors, LED_COUNT);
+
   delay(10);
 }
