@@ -16,15 +16,20 @@ This is a library for the Arduino for controlling these LED strips from Pololu b
 * "Addressable RGB 60-LED Strip, 5V, 1m &#40;WS2812B)":http://www.pololu.com/catalog/product/2549
 * "Addressable RGB 120-LED Strip, 5V, 2m &#40;WS2812B)":http://www.pololu.com/catalog/product/2550
 
+This library also supports addressable through-hole RGB LEDs from Pololu, which are listed below.  However, the red and green channels on these LEDs are swapped relative to the WS2812B, so you will need to swap those channels in your code.
+
+* "Addressable Through-Hole 5mm RGB LED with Diffused Lens, WS2811 Driver (10-Pack)":http://www.pololu.com/product/2535
+* "Addressable Through-Hole 8mm RGB LED with Diffused Lens, WS2811 Driver (10-Pack)":http://www.pololu.com/product/2536
+
 This library also supports the older high-speed TM1804 LED strips, which are listed below.  However, the red and green channels on the TM1804 are swapped relative to the WS2812B, so you will need to swap those channels in your code.
 
 * "Addressable RGB 30-LED Strip, 5V, 1m &#40;High-Speed TM1804)":http://www.pololu.com/catalog/product/2543
 * "Addressable RGB 60-LED Strip, 5V, 2m &#40;High-Speed TM1804)":http://www.pololu.com/catalog/product/2544
 * "Addressable RGB 150-LED Strip, 5V, 5m &#40;High-Speed TM1804)":http://www.pololu.com/catalog/product/2545
 
-If you have the high-speed TM1804 LED strips, you might prefer to use "version 2.1.0":https://github.com/pololu/pololu-led-strip-arduino/releases/tag/2.1.0 of the library, which does not require you to swap red and green in your code.
+If you have the WS2811 LEDs or the high-speed TM1804 LED strips, you might prefer to use "version 2.1.0":https://github.com/pololu/pololu-led-strip-arduino/releases/tag/2.1.0 of the library, which does not require you to swap red and green in your code.
 
-This version of the library does not support the older low-speed TM1804 LED strips.  If you want to control those, we recommend using "version 1.2.0":https://github.com/pololu/pololu-led-strip-arduino/releases/tag/1.2.0, which runs slower but can work with any of the low-speed TM1804 LED strips, high-speed TM1804 strips, or WS2812B strips.
+This version of the library does not support the older low-speed TM1804 LED strips.  If you want to control those, we recommend using "version 1.2.0":https://github.com/pololu/pololu-led-strip-arduino/releases/tag/1.2.0, which runs slower but can work with any of the low-speed TM1804 LED strips, high-speed TM1804 strips, WS2812B strips, or WS2811 LEDs.
 
 This library allows complete control over the color of an arbitrary number of LED strips with an arbitrary number of LEDs.  Each LED can be individually controlled, and LED strips can be chained together.
 
