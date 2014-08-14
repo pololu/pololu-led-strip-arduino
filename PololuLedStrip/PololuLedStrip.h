@@ -10,8 +10,8 @@
 #define __enable_irq sei
 #define __disable_irq cli
 
-#if !(F_CPU == 16000000 || F_CPU == 20000000)
-#error "On an AVR, this version of the PololuLedStrip library only supports 16 and 20 MHz."
+#if !(F_CPU == 8000000 || F_CPU == 16000000 || F_CPU == 20000000)
+#error "On an AVR, this version of the PololuLedStrip library only supports 8, 16 and 20 MHz."
 #endif
 
 #elif defined(__arm__)
@@ -269,10 +269,16 @@ namespace Pololu
         // high for some time.  The amount of time the line is high depends on whether the bit is 0 or 1,
         // but this function always takes the same time (2 us).
         "send_led_strip_bit%=:\n"
-        "sbi %2, %3\n"                           // Drive the line high.
+#if F_CPU == 8000000
         "rol __tmp_reg__\n"                      // Rotate left through carry.
+#endif
+        "sbi %2, %3\n"                           // Drive the line high.
+#if F_CPU != 8000000
+        "rol __tmp_reg__\n"                      // Rotate left through carry.
+#endif
 
-#if F_CPU == 16000000
+#if F_CPU == 8000000
+#elif F_CPU == 16000000
         "nop\n" "nop\n"
 #elif F_CPU == 20000000
         "nop\n" "nop\n" "nop\n" "nop\n"
@@ -282,7 +288,9 @@ namespace Pololu
 
         "brcs .+2\n" "cbi %2, %3\n"              // If the bit to send is 0, drive the line low now.
 
-#if F_CPU == 16000000
+#if F_CPU == 8000000
+        "nop\n" "nop\n"
+#elif F_CPU == 16000000
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
 #elif F_CPU == 20000000
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
