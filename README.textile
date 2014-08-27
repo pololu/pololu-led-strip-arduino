@@ -1,7 +1,7 @@
 h1. Arduino library for addressable RGB LED strips from Pololu
 
-Version: 3.1.2
-Release Date: 2014-06-10
+Version: 3.2.0
+Release Date: 2014-08-27
 "www.pololu.com":http://www.pololu.com/
 
 !http://b.pololu-files.com/picture/0J4995.250.jpg?5da10b3ac92a70e8bd253c7ed06dc0b1!:http://www.pololu.com/picture/view/0J4995
@@ -37,7 +37,7 @@ h2. Supported Platforms
 
 This library and the examples are designed to work with the Arduino IDE versions 1.0 and 1.5 and probably will not work with earlier versions.
 
-This library currently supports any board based on the ATmega168, ATmega328P, ATmega32U4, or ATmega2560 which runs at 16 MHz or 20 MHz.  This includes the "A-Star 32U4 boards":http://www.pololu.com/category/149/a-star-programmable-controllers, the "Arduino Uno":http://www.pololu.com/catalog/product/2191, the older Arduino Duemilanovae, the "Baby Orangutan B-328":http://www.pololu.com/catalog/product/1220, the "Orangutan SV-328":http://www.pololu.com/catalog/product/1227, the "Arduino Leonardo":http://www.pololu.com/catalog/product/2192, the "Arduino Micro":http://www.pololu.com/product/2188, and the "Arduino Mega":http://www.pololu.com/catalog/product/1699.  Not all pins on the Arduino Mega are supported (see below).
+This library currently supports any board based on the ATmega168, ATmega328P, ATmega32U4, or ATmega2560 which runs at 8 MHz, 16 MHz, or 20 MHz.  This includes the "A-Star 32U4 boards":http://www.pololu.com/category/149/a-star-programmable-controllers, the "Arduino Uno":http://www.pololu.com/catalog/product/2191, the older Arduino Duemilanovae, the "Baby Orangutan B-328":http://www.pololu.com/catalog/product/1220, the "Orangutan SV-328":http://www.pololu.com/catalog/product/1227, the "Arduino Leonardo":http://www.pololu.com/catalog/product/2192, the "Arduino Micro":http://www.pololu.com/product/2188, and the "Arduino Mega":http://www.pololu.com/catalog/product/1699.  Not all pins on the Arduino Mega are supported (see below).
 
 This library also supports the "Arduino Due":http://www.pololu.com/catalog/product/2193, which is based on the ATSAM3X8E.
 
@@ -114,6 +114,7 @@ No special code is required to chain LED strips together.  An X-meter LED strip 
 
 h2. Version History
 
+* 3.2.0 (2014-08-27): Added support for AVRs running at 8 MHz (thanks odewdney).
 * 3.1.2 (2014-06-10): Fixed a bug in the HSV-to-RGB conversion in the LedStripRainbow example.
 * 3.1.1 (2014-01-07): Changed the examples to use @uint16_t@ instead of @byte@ for @i@, making it easier to expand them beyond 254 LEDs.
 * 3.1.0 (2013-12-19): Added the LedStripXmas example.
