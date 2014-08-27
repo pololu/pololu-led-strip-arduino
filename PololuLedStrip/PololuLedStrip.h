@@ -277,13 +277,10 @@ namespace Pololu
         "rol __tmp_reg__\n"                      // Rotate left through carry.
 #endif
 
-#if F_CPU == 8000000
-#elif F_CPU == 16000000
+#if F_CPU == 16000000
         "nop\n" "nop\n"
 #elif F_CPU == 20000000
         "nop\n" "nop\n" "nop\n" "nop\n"
-#else
-#error "Unsupported F_CPU"
 #endif
 
         "brcs .+2\n" "cbi %2, %3\n"              // If the bit to send is 0, drive the line low now.
