@@ -15,6 +15,7 @@ This is a library for the Arduino for controlling these addressable RGB LED prod
 * "Addressable RGB 150-LED Strip, 5V, 5m &#40;WS2812B)":http://www.pololu.com/catalog/product/2548
 * "Addressable RGB 60-LED Strip, 5V, 1m &#40;WS2812B)":http://www.pololu.com/catalog/product/2549
 * "Addressable RGB 120-LED Strip, 5V, 2m &#40;WS2812B)":http://www.pololu.com/catalog/product/2550
+* "Addressable High-Density RGB 72-LED Strip, 5V, 0.5m &#40;WS2812B)":http://www.pololu.com/product/2551
 * "Addressable Through-Hole 5mm RGB LED with Diffused Lens, WS2811 Driver (10-Pack)":http://www.pololu.com/product/2535
 * "Addressable Through-Hole 8mm RGB LED with Diffused Lens, WS2811 Driver (10-Pack)":http://www.pololu.com/product/2536
 * "Adafruit 16 WS2812 LED NeoPixel Ring":http://www.pololu.com/product/2537
