@@ -27,9 +27,16 @@
  * be disabled while the LED strips are being updated or else
  * they will cause glitches on the LEDs).
  */
- 
+
+#ifdef __AVR__
+#define HAS_EEPROM
+#endif
+
 #include <PololuLedStrip.h>
+
+#ifdef HAS_EEPROM
 #include <EEPROM.h>
+#endif
 
 // Create an ledStrip object on pin 12.
 #define LED_SIGNAL_PIN 12
@@ -76,12 +83,17 @@ void setup()
   {
     seed += analogRead(i);
   }
-  seed += EEPROM.read(0);  // get part of the seed from EEPROM
+  #ifdef HAS_EEPROM
+    seed += EEPROM.read(0);  // get part of the seed from EEPROM
+  #endif
   randomSeed(seed);
-  // save a random number in EEPROM to be used for random seed
-  // generation the next time the program runs
-  EEPROM.write(0, random(256));
-  
+
+  #ifdef HAS_EEPROM
+    // save a random number in EEPROM to be used for random seed
+    // generation the next time the program runs
+    EEPROM.write(0, random(256));
+  #endif
+
   // optionally connect a switch between this pin and ground
   // when the input is low, freeze the cycle at the current pattern
   pinMode(AUTOCYCLE_SWITCH_PIN, INPUT_PULLUP);
