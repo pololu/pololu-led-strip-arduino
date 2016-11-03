@@ -365,7 +365,7 @@ namespace Pololu
       }
     }
     __enable_irq();         // Re-enable interrupts now that we are done.
-    delayMicroseconds(50);  // Hold the line low for 50 microseconds to send the reset signal.
+    delayMicroseconds(80);  // Send the reset signal.
   }
 
 }
