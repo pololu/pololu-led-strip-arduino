@@ -34,13 +34,13 @@ RGB LED products from Pololu:
 * [Addressable RGB 60-LED Strip, 5V, 2m &#40;High-Speed TM1804)](https://www.pololu.com/product/2544)
 * [Addressable RGB 150-LED Strip, 5V, 5m &#40;High-Speed TM1804)](https://www.pololu.com/product/2545)
 
-This library is optimized for the WS2812B, so it transmits colors in
-green-red-blue order.
+This library is optimized for the SK6812 and WS2812B, so it transmits
+colors in green-red-blue order.
 
 If you have a WS2811 LED or a high-speed TM1804 LED strip, please note
-that its red and green channels are swapped relative to the WS2812B,
-so you will need to swap those channels in your code. You might prefer
-to use
+that its red and green channels are swapped relative to the SK6812 and
+WS2812B, so you will need to swap those channels in your code. You
+might prefer to use
 [version 2.1.0](https://github.com/pololu/pololu-led-strip-arduino/releases/tag/2.1.0)
 of the library, which does not require you to swap red and green in
 your code.
@@ -49,7 +49,8 @@ This version of the library does not support the older low-speed
 TM1804 LED strips.  If you want to control those, we recommend using
 [version 1.2.0](https://github.com/pololu/pololu-led-strip-arduino/releases/tag/1.2.0),
 which runs slower but can work with any of the low-speed TM1804 LED
-strips, high-speed TM1804 strips, WS2812B strips, or WS2811 LEDs.
+strips, high-speed TM1804 strips, SK6812 strips, WS2812B strips, or
+WS2811 LEDs.
 
 This library allows complete control over the color of an arbitrary
 number of LED strips with an arbitrary number of LEDs.  Each LED can
@@ -170,16 +171,16 @@ the library will temporarily enable interrupts after each color is
 sent, about every 36 microseconds.  If you can keep all of your
 interrupts short enough, then this option should allow this library to
 work in conjunction with your interrupt-based libraries.  However, if
-you have an interrupt enabled that takes longer than about 5
-microseconds for the WS2812B or 8 microseconds for the TM1804, then
-this interrupt will sometimes cause an extra long low pulse to
-emitted, which will be interpreted by the LED strip as a reset
-command.  This can cause visible flickering in the LED strip.  By
-default, many common Arduinos such as the Arduino Uno have an
-interrupt that runs every millisecond and takes longer than 8
-microseconds, so this option will give bad results unless you disable
-that interrupt.  To turn on the `interruptFriendly` option, add this
-line to your `setup()` function:
+you have an interrupt enabled that takes longer than about 38
+microseconds for the SK6812, 5 microseconds for the WS2812B, or 8
+microseconds for the TM1804, then this interrupt will sometimes cause
+an extra long low pulse to emitted, which will be interpreted by the
+LED strip as a reset command.  This can cause visible flickering in
+the LED strip.  By default, many common Arduinos such as the Arduino
+Uno have an interrupt that runs every millisecond and takes longer
+than 8 microseconds, so this option will give bad results unless you
+disable that interrupt.  To turn on the `interruptFriendly` option,
+add this line to your `setup()` function:
 
     PololuLedStripBase::interruptFriendly = true;
 
