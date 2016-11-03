@@ -1,7 +1,7 @@
 # Arduino library for addressable RGB LED strips from Pololu
 
-Version: 4.0.0 <br>
-Release date: 2016-08-22 <br>
+Version: 4.1.0<br>
+Release date: 2016-11-03<br>
 [![Build Status](https://travis-ci.org/pololu/pololu-led-strip-arduino.svg?branch=master)](https://travis-ci.org/pololu/pololu-led-strip-arduino)<br>
 [www.pololu.com](https://www.pololu.com/)
 
@@ -12,11 +12,17 @@ Release date: 2016-08-22 <br>
 This is a library for the Arduino for controlling these addressable
 RGB LED products from Pololu:
 
-* [Addressable RGB 30-LED Strip, 5V, 1m &#40;WS2812B)](https://www.pololu.com/catalog/product/2546)
-* [Addressable RGB 60-LED Strip, 5V, 2m &#40;WS2812B)](https://www.pololu.com/catalog/product/2547)
-* [Addressable RGB 150-LED Strip, 5V, 5m &#40;WS2812B)](https://www.pololu.com/catalog/product/2548)
-* [Addressable RGB 60-LED Strip, 5V, 1m &#40;WS2812B)](https://www.pololu.com/catalog/product/2549)
-* [Addressable RGB 120-LED Strip, 5V, 2m &#40;WS2812B)](https://www.pololu.com/catalog/product/2550)
+* [Addressable RGB 30-LED Strip, 5V, 1m &#40;SK6812)](https://www.pololu.com/product/2526)
+* [Addressable RGB 60-LED Strip, 5V, 2m &#40;SK6812)](https://www.pololu.com/product/2527)
+* [Addressable RGB 150-LED Strip, 5V, 5m &#40;SK6812)](https://www.pololu.com/product/2528)
+* [Addressable RGB 60-LED Strip, 5V, 1m &#40;SK6812)](https://www.pololu.com/product/2529)
+* [Addressable RGB 120-LED Strip, 5V, 2m &#40;SK6812)](https://www.pololu.com/product/2530)
+* [Addressable High-Density RGB 72-LED Strip, 5V, 0.5m &#40;SK6812)](https://www.pololu.com/product/2531)
+* [Addressable RGB 30-LED Strip, 5V, 1m &#40;WS2812B)](https://www.pololu.com/product/2546)
+* [Addressable RGB 60-LED Strip, 5V, 2m &#40;WS2812B)](https://www.pololu.com/product/2547)
+* [Addressable RGB 150-LED Strip, 5V, 5m &#40;WS2812B)](https://www.pololu.com/product/2548)
+* [Addressable RGB 60-LED Strip, 5V, 1m &#40;WS2812B)](https://www.pololu.com/product/2549)
+* [Addressable RGB 120-LED Strip, 5V, 2m &#40;WS2812B)](https://www.pololu.com/product/2550)
 * [Addressable High-Density RGB 72-LED Strip, 5V, 0.5m &#40;WS2812B)](https://www.pololu.com/product/2551)
 * [Addressable Through-Hole 5mm RGB LED with Diffused Lens, WS2811 Driver (10-Pack)](https://www.pololu.com/product/2535)
 * [Addressable Through-Hole 8mm RGB LED with Diffused Lens, WS2811 Driver (10-Pack)](https://www.pololu.com/product/2536)
@@ -24,9 +30,9 @@ RGB LED products from Pololu:
 * [Adafruit 24 WS2812 LED NeoPixel Ring](https://www.pololu.com/product/2538)
 * [Adafruit 15 WS2812 LED NeoPixel 1/4-Ring](https://www.pololu.com/product/2539)
 * [Adafruit 5&times;8 WS2812 LED NeoPixel Shield for Arduino](https://www.pololu.com/product/2772)
-* [Addressable RGB 30-LED Strip, 5V, 1m &#40;High-Speed TM1804)](https://www.pololu.com/catalog/product/2543)
-* [Addressable RGB 60-LED Strip, 5V, 2m &#40;High-Speed TM1804)](https://www.pololu.com/catalog/product/2544)
-* [Addressable RGB 150-LED Strip, 5V, 5m &#40;High-Speed TM1804)](https://www.pololu.com/catalog/product/2545)
+* [Addressable RGB 30-LED Strip, 5V, 1m &#40;High-Speed TM1804)](https://www.pololu.com/product/2543)
+* [Addressable RGB 60-LED Strip, 5V, 2m &#40;High-Speed TM1804)](https://www.pololu.com/product/2544)
+* [Addressable RGB 150-LED Strip, 5V, 5m &#40;High-Speed TM1804)](https://www.pololu.com/product/2545)
 
 This library is optimized for the WS2812B, so it transmits colors in
 green-red-blue order.
@@ -243,6 +249,7 @@ the same way as a single (X+Y)-meter LED strip.
 
 ## Version history
 
+* 4.1.0 (2016-11-03): Changed the reset time from 50&nbsp;&mu;s to 80&nbsp;&mu;s to support the SK6812.
 * 4.0.0 (2016-08-22): Updated library to work with the Arduino Library Manager.
 * 3.2.0 (2014-08-27): Added support for AVRs running at 8 MHz (thanks odewdney).
 * 3.1.2 (2014-06-10): Fixed a bug in the HSV-to-RGB conversion in the LedStripRainbow example.
