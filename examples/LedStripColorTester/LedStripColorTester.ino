@@ -22,7 +22,7 @@
  * the LED strip loses power it will be off until you resend
  * the color.
  */
- 
+
 #include <PololuLedStrip.h>
 
 // Create an ledStrip object and specify the pin it will use.
@@ -36,7 +36,7 @@ void setup()
 {
   // Start up the serial port, for communication with the PC.
   Serial.begin(115200);
-  Serial.println("Ready to receive colors."); 
+  Serial.println("Ready to receive colors.");
 }
 
 void loop()
@@ -65,7 +65,7 @@ void loop()
       }
 
       // Write to the LED strip.
-      ledStrip.write(colors, LED_COUNT);  
+      ledStrip.write(colors, LED_COUNT);
 
       Serial.print("Showing color: ");
       Serial.print(color.red);

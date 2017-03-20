@@ -6,7 +6,7 @@
  * you should see a pattern on the LED strip that fades from
  * green to pink and also moves along the strip.
  */
- 
+
 #include <PololuLedStrip.h>
 
 // Create an ledStrip object and specify the pin it will use.
@@ -24,14 +24,14 @@ void loop()
 {
   // Update the colors.
   byte time = millis() >> 2;
-  for(uint16_t i = 0; i < LED_COUNT; i++)
+  for (uint16_t i = 0; i < LED_COUNT; i++)
   {
     byte x = time - 8*i;
-    colors[i] = (rgb_color){ x, 255 - x, x };
+    colors[i] = rgb_color(x, 255 - x, x);
   }
-  
+
   // Write the colors to the LED strip.
-  ledStrip.write(colors, LED_COUNT);  
-  
+  ledStrip.write(colors, LED_COUNT);
+
   delay(10);
 }

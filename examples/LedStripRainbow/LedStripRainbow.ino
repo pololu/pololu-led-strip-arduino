@@ -39,7 +39,7 @@ rgb_color hsvToRgb(uint16_t h, uint8_t s, uint8_t v)
         case 4: r = t; g = p; b = v; break;
         case 5: r = v; g = p; b = q; break;
     }
-    return (rgb_color){r, g, b};
+    return rgb_color(r, g, b);
 }
 
 void loop()

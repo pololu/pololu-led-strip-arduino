@@ -116,7 +116,7 @@ void loop()
     // whenever timer resets, clear the LED colors array (all off)
     for (int i = 0; i < LED_COUNT; i++)
     {
-      colors[i] = (rgb_color){0, 0, 0};
+      colors[i] = rgb_color(0, 0, 0);
     }
   }
   
@@ -333,7 +333,7 @@ void warmWhiteShimmer(unsigned char dimOnly)
     // every odd LED gets set to a quarter the brighness of the preceding even LED
     if (i + 1 < LED_COUNT)
     {
-      colors[i+1] = (rgb_color){colors[i].red >> 2, colors[i].green >> 2, colors[i].blue >> 2};
+      colors[i+1] = rgb_color(colors[i].red >> 2, colors[i].green >> 2, colors[i].blue >> 2);
     }
   }
 }
@@ -390,27 +390,27 @@ void randomColorWalk(unsigned char initializeColors, unsigned char dimOnly)
       // initialize LEDs to alternating red and green
       if (i % 2)
       {
-        colors[i] = (rgb_color){maxBrightness, 0, 0};
+        colors[i] = rgb_color(maxBrightness, 0, 0);
       }
       else
       {
-        colors[i] = (rgb_color){0, maxBrightness, 0};
+        colors[i] = rgb_color(0, maxBrightness, 0);
       }
     }
     else
     {
       // initialize LEDs to a string of random colors
-      colors[i] = (rgb_color){random(maxBrightness), random(maxBrightness), random(maxBrightness)};
+      colors[i] = rgb_color(random(maxBrightness), random(maxBrightness), random(maxBrightness));
     }
     
     // set neighboring LEDs to be progressively dimmer versions of the color we just set
     if (i >= 1)
     {
-      colors[i-1] = (rgb_color){colors[i].red >> 2, colors[i].green >> 2, colors[i].blue >> 2};
+      colors[i-1] = rgb_color(colors[i].red >> 2, colors[i].green >> 2, colors[i].blue >> 2);
     }
     if (i >= 2)
     {
-      colors[i-2] = (rgb_color){colors[i].red >> 3, colors[i].green >> 3, colors[i].blue >> 3};
+      colors[i-2] = rgb_color(colors[i].red >> 3, colors[i].green >> 3, colors[i].blue >> 3);
     }
     if (i + 1 < LED_COUNT)
     {
@@ -624,7 +624,7 @@ void colorExplosion(unsigned char noNewBursts)
         case 5:
           if ((colors[j].red == 0) && (colors[j].green == 0) && (colors[j].blue == 0))
           {
-            colors[j] = (rgb_color){1, 1, 1};
+            colors[j] = rgb_color(1, 1, 1);
           }
           break;
         
@@ -662,14 +662,14 @@ void gradient()
     for (int i = 0; i < 8; i++)
     {
       if (j >= LED_COUNT){ break; }
-      colors[(loopCount/2 + j + LED_COUNT)%LED_COUNT] = (rgb_color){160 - 20*i, 20*i, (160 - 20*i)*20*i/160};
+      colors[(loopCount/2 + j + LED_COUNT)%LED_COUNT] = rgb_color(160 - 20*i, 20*i, (160 - 20*i)*20*i/160);
       j++;
     }
     // transition from green to red over 8 LEDs
     for (int i = 0; i < 8; i++)
     {
       if (j >= LED_COUNT){ break; }
-      colors[(loopCount/2 + j + LED_COUNT)%LED_COUNT] = (rgb_color){20*i, 160 - 20*i, (160 - 20*i)*20*i/160};
+      colors[(loopCount/2 + j + LED_COUNT)%LED_COUNT] = rgb_color(20*i, 160 - 20*i, (160 - 20*i)*20*i/160);
       j++;
     }
   }
@@ -781,28 +781,28 @@ void brightTwinkle(unsigned char minColor, unsigned char numColors, unsigned cha
         switch (random(numColors) + minColor)
         {
           case 0:
-            colors[j] = (rgb_color){1, 1, 1};  // white
+            colors[j] = rgb_color(1, 1, 1);  // white
             break;
           case 1:
-            colors[j] = (rgb_color){1, 0, 0};  // red
+            colors[j] = rgb_color(1, 0, 0);  // red
             break;
           case 2:
-            colors[j] = (rgb_color){0, 1, 0};  // green
+            colors[j] = rgb_color(0, 1, 0);  // green
             break;
           case 3:
-            colors[j] = (rgb_color){0, 0, 1};  // blue
+            colors[j] = rgb_color(0, 0, 1);  // blue
             break;
           case 4:
-            colors[j] = (rgb_color){1, 1, 0};  // yellow
+            colors[j] = rgb_color(1, 1, 0);  // yellow
             break;
           case 5:
-            colors[j] = (rgb_color){0, 1, 1};  // cyan
+            colors[j] = rgb_color(0, 1, 1);  // cyan
             break;
           case 6:
-            colors[j] = (rgb_color){1, 0, 1};  // magenta
+            colors[j] = rgb_color(1, 0, 1);  // magenta
             break;
           default:
-            colors[j] = (rgb_color){1, 1, 1};  // white
+            colors[j] = rgb_color(1, 1, 1);  // white
         }
       }
     }
@@ -835,23 +835,23 @@ unsigned char collision()
     switch (state/3)
     {
       case 0:  // first collision: red streams
-        colors[0] = (rgb_color){maxBrightness, 0, 0};
+        colors[0] = rgb_color(maxBrightness, 0, 0);
         break;
       case 1:  // second collision: green streams
-        colors[0] = (rgb_color){0, maxBrightness, 0};
+        colors[0] = rgb_color(0, maxBrightness, 0);
         break;
       case 2:  // third collision: blue streams
-        colors[0] = (rgb_color){0, 0, maxBrightness};
+        colors[0] = rgb_color(0, 0, maxBrightness);
         break;
       case 3:  // fourth collision: warm white streams
-        colors[0] = (rgb_color){maxBrightness, maxBrightness*4/5, maxBrightness>>3};
+        colors[0] = rgb_color(maxBrightness, maxBrightness*4/5, maxBrightness>>3);
         break;
       default:  // fifth collision and beyond: random-color streams
-        colors[0] = (rgb_color){random(maxBrightness), random(maxBrightness), random(maxBrightness)};
+        colors[0] = rgb_color(random(maxBrightness), random(maxBrightness), random(maxBrightness));
     }
     
     // stream is led by two full-white LEDs
-    colors[1] = colors[2] = (rgb_color){255, 255, 255};
+    colors[1] = colors[2] = rgb_color(255, 255, 255);
     // make other side of the strip a mirror image of this side
     colors[LED_COUNT - 1] = colors[0];
     colors[LED_COUNT - 2] = colors[1];
@@ -887,7 +887,7 @@ unsigned char collision()
         if (i >= (LED_COUNT + 1) / 2)
         {
           // anything past the halfway point is white
-          colors[i] = (rgb_color){255, 255, 255};
+          colors[i] = rgb_color(255, 255, 255);
         }
         else
         {
@@ -897,7 +897,7 @@ unsigned char collision()
         colors[LED_COUNT - i - 1] = colors[i];
       }
       // stream is led by two full-white LEDs
-      colors[stopIdx + 1] = colors[stopIdx + 2] = (rgb_color){255, 255, 255};
+      colors[stopIdx + 1] = colors[stopIdx + 2] = rgb_color(255, 255, 255);
       // make other side of the strip a mirror image of this side
       colors[LED_COUNT - stopIdx - 2] = colors[stopIdx + 1];
       colors[LED_COUNT - stopIdx - 3] = colors[stopIdx + 2];
@@ -908,7 +908,7 @@ unsigned char collision()
       // flash the entire strip full-brightness white (ignores maxBrightness limits)
       for (int i = 0; i < LED_COUNT; i++)
       {
-        colors[i] = (rgb_color){255, 255, 255};
+        colors[i] = rgb_color(255, 255, 255);
       }
       state++;  // advance to next state
     }
