@@ -1,7 +1,7 @@
 # Arduino library for addressable RGB LED strips from Pololu
 
-Version: 4.1.1<br>
-Release date: 2016-11-03<br>
+Version: 4.2.0<br>
+Release date: 2017-03-20<br>
 [![Build Status](https://travis-ci.org/pololu/pololu-led-strip-arduino.svg?branch=master)](https://travis-ci.org/pololu/pololu-led-strip-arduino)<br>
 [www.pololu.com](https://www.pololu.com/)
 
@@ -250,6 +250,7 @@ the same way as a single (X+Y)-meter LED strip.
 
 ## Version history
 
+* 4.2.0 (2017-03-20): Added a constructor for rgb_color that takes the three color values and changed the examples to use it.  Added `keywords.txt`, which is used by the Arduino IDE for syntax highlighting.
 * 4.1.1 (2017-01-16): Fixed library.properties "url" field.
 * 4.1.0 (2016-11-03): Changed the reset time from 50&nbsp;&mu;s to 80&nbsp;&mu;s to support the SK6812.
 * 4.0.0 (2016-08-22): Updated library to work with the Arduino Library Manager.
