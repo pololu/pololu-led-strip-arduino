@@ -1,0 +1,11 @@
+Pololu	KEYWORD1
+PololuLedStripBase	KEYWORD1
+PololuLedStrip	KEYWORD1
+rgb_color	KEYWORD1
+
+red	LITERAL1
+green	LITERAL1
+blue	LITERAL1
+
+write	LITERAL1
+interruptFriendly	LITERAL1
