@@ -16,6 +16,7 @@ env:
 - BOARD=yun
 
 script:
+- set -eo pipefail;
 - for e in examples/*; do
     platformio ci --board=$BOARD --lib=. $e/*;
   done
