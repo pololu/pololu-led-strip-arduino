@@ -10,8 +10,8 @@
 #define __enable_irq sei
 #define __disable_irq cli
 
-#if !(F_CPU == 8000000 || F_CPU == 16000000 || F_CPU == 20000000)
-#error "On an AVR, this version of the PololuLedStrip library only supports 8, 16 and 20 MHz."
+#if !(F_CPU == 8000000 || F_CPU == 12000000 || F_CPU == 16000000 || F_CPU == 20000000)
+#error "On an AVR, this version of the PololuLedStrip library only supports 8, 12, 16, and 20 MHz."
 #endif
 
 #elif defined(__arm__)
@@ -95,6 +95,47 @@ namespace Pololu
     _SFR_IO_ADDR(PORTB),
     _SFR_IO_ADDR(PORTB),
     _SFR_IO_ADDR(PORTD),
+  };
+
+  #elif defined(__AVR_ATmega328PB__) || defined(ARDUINO_AVR_A_STAR_328PB)
+  // ATmega328PB-based boards such as the A-Star 328PB Micro
+
+  const unsigned char pinBit[] =
+  {
+    0, 1, 2, 3, 4, 5, 6, 7,  // PORTD
+    0, 1, 2, 3, 4, 5,        // PORTB
+    0, 1, 2, 3, 4, 5,        // PORTC
+    2, 3, 0, 1,              // PORTE
+    6,                       // PORTC
+  };
+
+  const unsigned char pinAddr[] =
+  {
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTD),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTB),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTC),
+    _SFR_IO_ADDR(PORTE),
+    _SFR_IO_ADDR(PORTE),
+    _SFR_IO_ADDR(PORTE),
+    _SFR_IO_ADDR(PORTE),
+    _SFR_IO_ADDR(PORTC),
   };
 
   #elif defined(__AVR__) && (!defined(NUM_DIGITAL_PINS) || NUM_DIGITAL_PINS == 20)
@@ -237,7 +278,7 @@ namespace Pololu
 
     __disable_irq();   // Disable interrupts temporarily because we don't want our pulse timing to be messed up.
 
-    while(count--)
+    while (count--)
     {
       // Send a color to the LED strip.
       // The assembly below also increments the 'colors' pointer,
@@ -267,9 +308,18 @@ namespace Pololu
         "rcall send_led_strip_bit%=\n"  // Send least-significant bit (bit 0).
         "ret\n"
 
-        // send_led_strip_bit subroutine:  Sends single bit to the LED strip by driving the data line
-        // high for some time.  The amount of time the line is high depends on whether the bit is 0 or 1,
-        // but this function always takes the same time (2 us).
+        // send_led_strip_bit subroutine:  Sends single bit to the LED strip by
+        // driving the data line high for some time.
+        //
+        //           Pin state each cycle            High time  Period
+        //  8 MHz 0: LHHHLLLLLLLLLLLLL               0.375 us   2.125 us
+        //  8 MHz 1: LHHHHHHHLLLLLLLLL               0.750 us   2.125 us
+        // 12 MHz 0: HHHHLLLLLLLLLLLLLLL             0.333 us   1.583 us
+        // 12 MHz 1: HHHHHHHHHHLLLLLLLLL             0.833 us   1.583 us
+        // 16 MHz 0: HHHHHHLLLLLLLLLLLLLLLL          0.375 us   1.375 us
+        // 16 MHz 1: HHHHHHHHHHHHHLLLLLLLLL          0.813 us   1.375 us
+        // 20 MHz 0: HHHHHHHHLLLLLLLLLLLLLLLLLL      0.400 us   1.300 us
+        // 20 MHz 1: HHHHHHHHHHHHHHHHHLLLLLLLLL      0.850 us   1.300 us
         "send_led_strip_bit%=:\n"
 #if F_CPU == 8000000
         "rol __tmp_reg__\n"                      // Rotate left through carry.
@@ -289,6 +339,8 @@ namespace Pololu
 
 #if F_CPU == 8000000
         "nop\n" "nop\n"
+#elif F_CPU == 12000000
+        "nop\n" "nop\n" "nop\n" "nop\n"
 #elif F_CPU == 16000000
         "nop\n" "nop\n" "nop\n" "nop\n" "nop\n"
 #elif F_CPU == 20000000

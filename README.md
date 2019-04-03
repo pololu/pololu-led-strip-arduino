@@ -1,7 +1,7 @@
 # Arduino library for addressable RGB LED strips from Pololu
 
-Version: 4.2.0<br>
-Release date: 2017-03-20<br>
+Version: 4.3.0<br>
+Release date: 2019-04-03<br>
 [![Build Status](https://travis-ci.org/pololu/pololu-led-strip-arduino.svg?branch=master)](https://travis-ci.org/pololu/pololu-led-strip-arduino)<br>
 [www.pololu.com](https://www.pololu.com/)
 
@@ -63,17 +63,18 @@ IDE versions 1.0 and 1.5 and probably will not work with earlier
 versions.
 
 This library currently supports any board based on the ATmega168,
-ATmega328P, ATmega32U4, or ATmega2560 which runs at 8 MHz, 16 MHz, or
-20 MHz.  This includes the
-[A-Star 32U4 boards](https://www.pololu.com/category/149/a-star-programmable-controllers),
-the [Arduino Uno](https://www.pololu.com/catalog/product/2191), the
-older Arduino Duemilanovae, the
-[Baby Orangutan B-328](https://www.pololu.com/catalog/product/1220),
+ATmega328P, ATmega328PB, ATmega32U4, or ATmega2560 which runs at
+8&nbsp;MHz, 12&nbsp;MHz, 16&nbsp;MHz, or 20&nbsp;MHz.
+This includes the
+[A-Star boards](https://www.pololu.com/category/149/a-star-programmable-controllers),
+the [Arduino Uno](https://www.pololu.com/catalog/product/2191),
+the older Arduino Duemilanovae,
+the [Baby Orangutan B-328](https://www.pololu.com/catalog/product/1220),
 the [Orangutan SV-328](https://www.pololu.com/catalog/product/1227),
 the [Arduino Leonardo](https://www.pololu.com/catalog/product/2192),
-the [Arduino Micro](https://www.pololu.com/product/2188), and the
-[Arduino Mega](https://www.pololu.com/catalog/product/1699).  Not all
-pins on the Arduino Mega are supported (see below).
+the [Arduino Micro](https://www.pololu.com/product/2188),
+and the [Arduino Mega](https://www.pololu.com/catalog/product/1699).
+Not all pins on the Arduino Mega are supported (see below).
 
 This library also supports the
 [Arduino Due](https://www.pololu.com/catalog/product/2193), which is
@@ -178,11 +179,12 @@ an extra long low pulse to emitted, which will be interpreted by the
 LED strip as a reset command.  This can cause visible flickering in
 the LED strip.  By default, many common Arduinos such as the Arduino
 Uno have an interrupt that runs every millisecond and takes longer
-than 8 microseconds, so this option will give bad results unless you
-disable that interrupt.  To turn on the `interruptFriendly` option,
+than 8 microseconds.  To turn on the `interruptFriendly` option,
 add this line to your `setup()` function:
 
-    PololuLedStripBase::interruptFriendly = true;
+```c++
+PololuLedStripBase::interruptFriendly = true;
+```
 
 Because the library disables interrupts by default, it can cause the
 timekeeping functions of your Arduino to miss ticks.  As a result, the
@@ -200,10 +202,12 @@ timekeeping will be affected.
 The library defines a type named `rgb_color` which can be used to
 represent colors.  The type is defined like this:
 
-    typedef struct rgb_color
-    {
-      unsigned char red, green, blue;
-    } rgb_color;
+```c++
+typedef struct rgb_color
+{
+  unsigned char red, green, blue;
+} rgb_color;
+```
 
 The fields `red`, `green`, and `blue` are numbers between 0 and 255
 and represent the brightness of the red, green, and blue color
@@ -250,6 +254,7 @@ the same way as a single (X+Y)-meter LED strip.
 
 ## Version history
 
+* 4.3.0 (2019-04-03): Added support for the ATmega328PB and 12 MHz AVRs.
 * 4.2.0 (2017-03-20): Added a constructor for rgb_color that takes the three color values and changed the examples to use it.  Added `keywords.txt`, which is used by the Arduino IDE for syntax highlighting.
 * 4.1.1 (2017-01-16): Fixed library.properties "url" field.
 * 4.1.0 (2016-11-03): Changed the reset time from 50&nbsp;&mu;s to 80&nbsp;&mu;s to support the SK6812.
