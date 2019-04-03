@@ -97,7 +97,7 @@ namespace Pololu
     _SFR_IO_ADDR(PORTD),
   };
 
-  #elif defined(__AVR__) && !defined(NUM_DIGITAL_PINS) || NUM_DIGITAL_PINS == 20
+  #elif defined(__AVR__) && (!defined(NUM_DIGITAL_PINS) || NUM_DIGITAL_PINS == 20)
   // ATmega168/328-based boards such as the Arduino Uno or Baby Orangutan B-328
 
   const unsigned char pinBit[] =
@@ -318,7 +318,7 @@ namespace Pololu
         "orrs r12, r12, r3\n"     // Put blue in LSB of color register.
         "rbit r12, r12\n"         // Reverse the bits so we can use right rotations.
         "adds  %0, %0, #3\n"      // Advance pointer to next color.
-    
+
         "mov r3, #24\n"           // Initialize the loop counter register.
 
         "send_led_strip_bit%=:\n"
