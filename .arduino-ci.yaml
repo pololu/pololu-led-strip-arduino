@@ -1,0 +1,4 @@
+skip_boards:
+  - arduino:samd:arduino_zero_native
+  - Intel:arc32:arduino_101
+  - esp8266:esp8266:huzzah

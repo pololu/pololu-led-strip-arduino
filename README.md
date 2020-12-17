@@ -2,7 +2,6 @@
 
 Version: 4.3.0<br>
 Release date: 2019-04-03<br>
-[![Build Status](https://travis-ci.org/pololu/pololu-led-strip-arduino.svg?branch=master)](https://travis-ci.org/pololu/pololu-led-strip-arduino)<br>
 [www.pololu.com](https://www.pololu.com/)
 
 [![Image](https://a.pololu-files.com/picture/0J4995.1200.jpg?e4ec28a3e9151b2e8f015c6cc6a4efab)](https://www.pololu.com/picture/view/0J4995)
