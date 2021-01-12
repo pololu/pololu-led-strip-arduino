@@ -1,7 +1,7 @@
 # Arduino library for addressable RGB LED strips from Pololu
 
-Version: 4.3.0<br>
-Release date: 2019-04-03<br>
+Version: 4.3.1<br>
+Release date: 2021-01-12<br>
 [www.pololu.com](https://www.pololu.com/)
 
 [![Image](https://a.pololu-files.com/picture/0J4995.1200.jpg?e4ec28a3e9151b2e8f015c6cc6a4efab)](https://www.pololu.com/picture/view/0J4995)
@@ -253,6 +253,7 @@ the same way as a single (X+Y)-meter LED strip.
 
 ## Version history
 
+* 4.3.1 (2021-01-12): Changed the `architectures` field in `library.properties` from `*` to `avr,sam`.
 * 4.3.0 (2019-04-03): Added support for the ATmega328PB and 12 MHz AVRs.
 * 4.2.0 (2017-03-20): Added a constructor for rgb_color that takes the three color values and changed the examples to use it.  Added `keywords.txt`, which is used by the Arduino IDE for syntax highlighting.
 * 4.1.1 (2017-01-16): Fixed library.properties "url" field.
